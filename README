@@ -1,3 +1,12 @@
-pip install -r requirements.txt
-export FLASK_APP=app.py
+# Para subir a heroku
+* pip install -r requirements.txt
+* Procfile
+* heroku buildpacks:add heroku/python
+* heroku run bash (para entrar al terminal)
+
 python app.py
+
+
+Para ver esta aplicación 
+
+* https://dashboard.heroku.com/apps/riskmapclimate
