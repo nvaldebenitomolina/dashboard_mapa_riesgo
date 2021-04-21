@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<head>    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script>L_PREFER_CANVAS=false; L_NO_TOUCH=false; L_DISABLE_3D=false;</script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.4.0/dist/leaflet.js"></script>
+    
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.4.0/dist/leaflet.css"/>
+    
+      <!-- Modal -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <meta name="viewport" content="width=device-width,
+        initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
+    {{ JSGlue.include() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+    <script src="{{ url_for('static', filename="js/leaflet.ajax.min.js") }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="css/index.css") }}"></script>
+    
+    
+
+
+</head>
+<body>
+    
+    <header>
+        <h1 id="header">
+            MAPA DE RIESGOS CLIMÁTICOS <br>        
+            <p class="p2">Viña del Mar y Valparaíso</p>
+        </h1> 
+           
+    </header>
+    <div class="row">
+        <div class="col" style="background-color: #454058;color:white;font-size: 17px;font-family: unset;float: left;padding: 14px;text-align:center;"> <a href="/static/pdf/Instructivo_WMS_WGIS.pdf" target="_blank" style="color:white;">  Acceder como WMS/QGIS </a> </div>
+        <div class="col" style="background-color: #454058;color:white;font-size: 17px;font-family: unset;padding: 14px;float: right;text-align:center;"> <a href="/static/pdf/Informe%20ARCLIM%20piloto%20Vi%C3%B1a%20Valpo.pdf" target="_blank" style="color:white;"> Informe Mapa de Riesgos</a></div>
+        <div class="col text-center" style="background-color: #454058;color:white;font-size: 17px;font-family: unset;padding: 14px;float: unset;text-align:center;"> <a href="/static/shapefiles/shapefiles.zip" target="_blank" style="color:white;">  Descarga de archivos </a></div>
+    </div>
+    <div class="row">
+        <div class="column1">
+            <p class="p1">
+                El riesgo climático considera índices de amenaza, exposición, sensibilidad y capacidad de respuesta.  El estudio tiene una resolución a nivel de manzana censal.
+                 <br>
+            </p>
+            <p class="p1">
+                Los mapas presentados evalúan el riesgo de la población ante amenazas climáticas como: Calor extremo, Marejadas, Inundaciones, Incendios Forestales y Remoción en masa.
+                Es un proyecto surgido al alero del Atlas de Riesgos Climáticos para Chile <a href="https://arclim.mma.gob.cl/">ARClim</a>. 
+                
+                
+            </p>
+
+            
+            <p class="p1">
+                Los datos se deben citar de la siguiente manera:
+
+                "Alamos, N., Billi, M., Amigo, C., Urquiza, A., Winckler, P., Larraguibel, C., … Valdebenito, C. (2021, April 8). Fuzzy logic modelling to assess high resolution spatial urban climatic risk impact in Valparaiso, Chile. <a href="https://osf.io/2xtvs/">DOI 10.17605/OSF.IO/2XTVS</a>".
+
+
+            </p>
+               
+             
+            <div class="image">
+                <img src="{{ url_for('static', filename="images/cr2.jpg") }}" alt="Logo1", style="width:100px;">
+                <img src="{{ url_for('static', filename="images/logo2.jpeg") }}" alt="Logo2", style="width:100px;"> 
+                <img src="{{ url_for('static', filename="images/puc.png") }}" alt="Logo3", style="width:100px;">
+                <img src="{{ url_for('static', filename="images/mv.png") }}" alt="Logo4", style="width:100px;">
+                <img src="{{ url_for('static', filename="images/uv.png") }}" alt="Logo5", style="width:100px;">
+                
+
+            
+            </div>
+        </div>
+        <div class="column2">
+            
+            <div class="folium-map" id="map_64b9894af4814ae08fe869ab362ce2b4" ></div>  
+           
+            
+        </div>
+      
+    </div>
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" tabindex="-1" role="dialog" style="top:235px;">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Disclaimer :</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <ul>
+               
+                            <li> Este estudio está limitado para las comunas de Viña del Mar y Valparaíso. </li>
+                            <li> Los resultados son relativos al territorio de estudio y no son comparables ni extrapolables a otras áreas de estudio.</li>
+                            <li> Se consideraron condiciones actuales (2018-2020) las que pueden variar en el futuro.</li>
+                        </ul>
+
+
+                       
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
+        
+  
+    
+</body>
+<script type="text/javascript" src="{{ url_for('static', filename="js/index.js") }}"></script>
