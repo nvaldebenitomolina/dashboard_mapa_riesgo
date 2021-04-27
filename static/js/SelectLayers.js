@@ -86,16 +86,23 @@
       var options = this._overlaysList.options
       for (var i = 0; i < options.length; i++) {
         var option = options[i]
-        var layer = this._layers[option.layerId].layer
+        
+        var layer1 = this._layers[5].layer
+        var layer2 = this._layers[6].layer
         if (option.selected) {
-          if (!this._map.hasLayer(layer)) {
-            this._map.addLayer(layer)
+          if (!this._map.hasLayer(layer1)) {
+            this._map.addLayer(layer1)
+            this._map.removeLayer(layer2)
           }
         } else {
-          if (this._map.hasLayer(layer)) {
-            this._map.removeLayer(layer)
+          if (this._map.hasLayer(layer1)) {
+            this._map.addLayer(layer2)
+            this._map.removeLayer(layer1)
           }
         }
+
+        
+        
       }
   
       this._handlingClick = false

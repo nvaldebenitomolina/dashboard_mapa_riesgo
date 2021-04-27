@@ -202,7 +202,7 @@ var icon_5dc95357a2ca4d6e968bfa44886bb6c0 = L.AwesomeMarkers.icon({
     prefix: 'glyphicon',
     extraClasses: 'fa-rotate-0'
     });
-marker_52cc9e51f47d4f8598a21a9973e46343.setIcon(icon_5dc95357a2ca4d6e968bfa44886bb6c0);
+/*marker_52cc9e51f47d4f8598a21a9973e46343.setIcon(icon_5dc95357a2ca4d6e968bfa44886bb6c0);*/
 
 var popup_e64c9980a9eb47b2a892a52331f405a8 = L.popup({maxWidth: '100%'});
     
@@ -234,7 +234,7 @@ var icon_e69fc271b5504f1c91cd508c7772ac43 = L.AwesomeMarkers.icon({
     extraClasses: 'fa-rotate-0'
     });
 
-marker_d67b9d9f28524eec9fc4bc4fd8b7e715.setIcon(icon_e69fc271b5504f1c91cd508c7772ac43);
+/*marker_d67b9d9f28524eec9fc4bc4fd8b7e715.setIcon(icon_e69fc271b5504f1c91cd508c7772ac43);*/
 
 var popup_88140694bafb41c282097ec166a506a5 = L.popup({maxWidth: '100%'});
 
@@ -251,13 +251,14 @@ marker_d67b9d9f28524eec9fc4bc4fd8b7e715.bindTooltip(
 );
     
 /* Layer Control popup */
+var cities = L.layerGroup([marker_52cc9e51f47d4f8598a21a9973e46343, marker_d67b9d9f28524eec9fc4bc4fd8b7e715]);
 var layer_control_45cf59e7a6084e749d632c2f930d60f1 = {
     base_layers : { "Marejadas" : geo_json_51446edfa7624e4999700360925288bb,
     "Calor extremo" : geo_json_af5fd4f02abf42caaa66306a8ba1d7bb,
     "Inundaciones" : geo_json_a7a99b2187454e69bfb81f6b424dc6bf,
     "Remoción en Masa" : geo_json_1c01f61c237048b1a33f3863cd4c9286,
     "Incendios forestales" : geo_json_775ed9e500574898863ca9e695e4e33c },
-    overlays : { }
+    overlays : {"Estero Marga Marga":marker_52cc9e51f47d4f8598a21a9973e46343,"Estero Reñaca":marker_d67b9d9f28524eec9fc4bc4fd8b7e715 }
     };
 c = L.control.selectLayers(
     layer_control_45cf59e7a6084e749d632c2f930d60f1.base_layers,
