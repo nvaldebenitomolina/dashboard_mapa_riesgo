@@ -56,13 +56,18 @@
     ,_onBaseLayerOptionChange: function () {
       var selectedLayerIndex = this._baseLayersList.selectedIndex
       var selectedLayerOption = this._baseLayersList.options[selectedLayerIndex]
-      var selectedLayer = this._layers[selectedLayerOption.layerId]
-  
+      var test = this._layers[selectedLayerIndex]
+      /*var selectedLayer = this._layers[selectedLayerOption.layerId]*/
+      var selectedLayer = this._layers[selectedLayerIndex]
+      console.log(selectedLayerIndex)
+      console.log(selectedLayerOption)
+      console.log(test)
       this._changeBaseLayer(selectedLayer)
     }
   
     ,_changeBaseLayer: function (layerObj) {
       this._handlingClick = true
+      console.log(layerObj)
   
       this._map.addLayer(layerObj.layer)
       this._map.removeLayer(this._activeBaseLayer.layer)

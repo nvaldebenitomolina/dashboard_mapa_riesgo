@@ -256,17 +256,16 @@ var layer_control_45cf59e7a6084e749d632c2f930d60f1 = {
     "Calor extremo" : geo_json_af5fd4f02abf42caaa66306a8ba1d7bb,
     "Inundaciones" : geo_json_a7a99b2187454e69bfb81f6b424dc6bf,
     "Remoción en Masa" : geo_json_1c01f61c237048b1a33f3863cd4c9286,
-    "Incendios forestales" : geo_json_775ed9e500574898863ca9e695e4e33c, },
-    /*overlays : {  }*/
+    "Incendios forestales" : geo_json_775ed9e500574898863ca9e695e4e33c },
+    overlays : { }
     };
-c=L.control.layers(
+c = L.control.selectLayers(
     layer_control_45cf59e7a6084e749d632c2f930d60f1.base_layers,
     layer_control_45cf59e7a6084e749d632c2f930d60f1.overlays,
-    {/*position: 'topleft',*/
-     collapsed: false,
-     autoZIndex: false
-    });
+    );
+
 c.addTo(map_64b9894af4814ae08fe869ab362ce2b4);
+
 $('#jpt').append(c.onAdd(map_64b9894af4814ae08fe869ab362ce2b4))
 
 geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove();
@@ -274,7 +273,14 @@ geo_json_a7a99b2187454e69bfb81f6b424dc6bf.remove();
 geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
 geo_json_775ed9e500574898863ca9e695e4e33c.remove();
 
-$('.leaflet-control-layers.leaflet-control-layers-expanded.leaflet-control').hide();
+$('.leaflet-control-layers.leaflet-control').hide();
+$(".leaflet-control-layers").addClass("leaflet-control-layers-expanded")
+
+
+if(document.getElementsByClassName('leaflet-control-layers-base').text == "Calor extremo") {
+    //Do something
+    console.log('test title')
+}
 
 /* Color map legend */
 var color_map_b7f9973159064893a83e9b3c41690486 = {};
