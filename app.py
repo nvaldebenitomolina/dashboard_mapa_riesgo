@@ -8,7 +8,7 @@ app = Flask(__name__)
 auth = HTTPBasicAuth()
 
 users = {
-    "cr2dgf": generate_password_hash("wpcr2")
+    "admin": generate_password_hash("wpcr2")
 }
 
 @auth.verify_password
