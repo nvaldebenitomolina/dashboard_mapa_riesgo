@@ -55,11 +55,14 @@
                 Amenazas Climáticas:
             </p>
             <div id='jpt'></div>
+            <p class="p3">
+                Escala de colores:
+            </p>
             <!-- The second value will be selected initially -->
-            <select name="select" id="myOption" onchange="myFunction()"">
-                <option value="l1">Legenda 1</option>
-                <option value="l2">Legenda 2</option>
-                <option value="value3">Legenda 3</option>
+            <select name="select" id="myOption" onchange="changeColorMap()" class="select_legend form-control form-control-sm"  placeholder=".form-control-sm">
+                <option value="none">None</option>
+                <option value="l1">Leyenda 1</option>
+                <option value="l2">Leyenda 2</option>
             </select>
             
             <p class="p1">

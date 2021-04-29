@@ -1,7 +1,4 @@
-  
-    
 var bounds = null;
-
 
 /* Disclaimer before */
 $("#myModal").modal("show");
@@ -74,7 +71,6 @@ function readGeojson(geojson_url) {
                 ${aliases[fields.indexOf(columnname)]
                 .toLocaleString()}
             </th>
-            
             <td style="padding: 4px;">${handleObject(layer.feature.properties[columnname])
             .toLocaleString()}</td></tr>`
         ).join(''))
@@ -84,31 +80,26 @@ function readGeojson(geojson_url) {
     return geo_json
     
 }
-function myFunction() {
-    console.log('--CHANGING LEGEND---')
+
+function changeColorMap() {
+    console.log('--CHANGING LEGEND AND MAP---')
     var x = document.getElementById("myOption").value;
     var y = $('.leaflet-control-layers-expanded :selected').val()
-    console.log(y)
     if(y == "Marejadas"){
         /*geo_json_51446edfa7624e4999700360925288bb.remove()*/
-  
         createLegend(x)
         geo_json_51446edfa7624e4999700360925288bb=readGeojson('geo_json_51446edfa7624e4999700360925288bb_'+x)}
     else if(y =="Calor Extremo"){
         /*geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove()*/
-      
         createLegend(x)
         geo_json_af5fd4f02abf42caaa66306a8ba1d7bb=readGeojson('geo_json_af5fd4f02abf42caaa66306a8ba1d7bb_'+x)}
     else if(y =="Inundaciones"){
-      
         createLegend(x)
         geo_json_a7a99b2187454e69bfb81f6b424dc6bf=readGeojson('geo_json_a7a99b2187454e69bfb81f6b424dc6bf_'+x)}
     else if(y =="Remoción en Masa"){
-        
         createLegend(x)
         geo_json_1c01f61c237048b1a33f3863cd4c9286=readGeojson('geo_json_1c01f61c237048b1a33f3863cd4c9286_'+x)}
     else if(y =="Incendios Forestales"){
-        
         createLegend(x)
         geo_json_775ed9e500574898863ca9e695e4e33c=readGeojson('geo_json_775ed9e500574898863ca9e695e4e33c_'+x) }
    
@@ -180,7 +171,7 @@ marker_d67b9d9f28524eec9fc4bc4fd8b7e715.bindTooltip(
 );
 
 
-$("#myOption").val("l1");
+$("#myOption").val("none");
 console.log('--LOADING--')
 var x = document.getElementById("myOption").value;
 console.log(x)
@@ -226,9 +217,9 @@ $('.leaflet-control-layers-expanded').change(function(){
     if($('#msc-1').attr('data')==$('.leaflet-control-layers-expanded :selected').val()){
     $('#msc-1').show();
     console.log($('.leaflet-control-layers-expanded :selected').val())
-    $('#msc-1').show();
-    $('#msc-2').hide();$('#msc-3').hide();$('#msc-4').hide();$('#msc-5').hide()
-    $("#myOption").val("l1");
+    $('#msc-1').show(); $('#msc-2').hide();$('#msc-3').hide();$('#msc-4').hide();$('#msc-5').hide()
+    $("#myOption").val("none");
+    
     /*readGeojson('geo_json_51446edfa7624e4999700360925288bb_'+x)*/
     }
 
@@ -236,7 +227,7 @@ $('.leaflet-control-layers-expanded').change(function(){
     $('#msc-2').show();
     console.log($('.leaflet-control-layers-expanded :selected').val())
     $('#msc-1').hide();$('#msc-2').show();$('#msc-3').hide();$('#msc-4').hide();$('#msc-5').hide()
-    $("#myOption").val("l1");
+    $("#myOption").val("none");
     /*readGeojson('geo_json_af5fd4f02abf42caaa66306a8ba1d7bb_'+x)*/
     }
 
@@ -244,7 +235,7 @@ $('.leaflet-control-layers-expanded').change(function(){
     $('#msc-3').show();
     console.log($('.leaflet-control-layers-expanded :selected').val())
     $('#msc-1').hide();$('#msc-2').hide();$('#msc-3').show();$('#msc-4').hide();$('#msc-5').hide()
-    $("#myOption").val("l1");
+    $("#myOption").val("none");
     /*readGeojson('geo_json_a7a99b2187454e69bfb81f6b424dc6bf_'+x)*/
     }
 
@@ -252,7 +243,7 @@ $('.leaflet-control-layers-expanded').change(function(){
     $('#msc-4').show();
     console.log($('.leaflet-control-layers-expanded :selected').val())
     $('#msc-1').hide();$('#msc-2').hide();$('#msc-3').hide();$('#msc-4').show();$('#msc-5').hide()
-    $("#myOption").val("l1");
+    $("#myOption").val("none");
     /*readGeojson('geo_json_1c01f61c237048b1a33f3863cd4c9286_'+x)*/
     }
 
@@ -260,8 +251,22 @@ $('.leaflet-control-layers-expanded').change(function(){
     $('#msc-5').show();
     console.log($('.leaflet-control-layers-expanded :selected').val())
     $('#msc-1').hide();$('#msc-2').hide();$('#msc-3').hide();$('#msc-4').hide();$('#msc-5').show()
-    $("#myOption").val("l1");
+    $("#myOption").val("none");
     /*readGeojson('geo_json_775ed9e500574898863ca9e695e4e33c_'+x)*/
+    }
+    geo_json_51446edfa7624e4999700360925288bb.remove();
+    geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove();
+    geo_json_a7a99b2187454e69bfb81f6b424dc6bf.remove();
+    geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
+    geo_json_775ed9e500574898863ca9e695e4e33c.remove();
+    try{
+        document.getElementById("legend")
+        .outerHTML = "";
+        /*map_64b9894af4814ae08fe869ab362ce2b4.removeControl(color_map_b7f9973159064893a83e9b3c41690486); */
+        /*map_64b9894af4814ae08fe869ab362ce2b4.color_map_b7f9973159064893a83e9b3c41690486*/
+    }
+    catch{
+        console.log('not removing legend...')
     }
 })
 $('#msc-3').show();$('#msc-2').hide();$('#msc-1').hide();$('#msc-4').hide();$('#msc-5').hide()
@@ -270,17 +275,22 @@ $('#msc-3').show();$('#msc-2').hide();$('#msc-1').hide();$('#msc-4').hide();$('#
 /* Color map legend */
 
 function createLegend(legend){
+    console.log('--CREATING LEGEND--')
     try{
-        delete map_64b9894af4814ae08fe869ab362ce2b4.color_map_b7f9973159064893a83e9b3c41690486}
+        document.getElementById("legend")
+        .outerHTML = "";
+        /*map_64b9894af4814ae08fe869ab362ce2b4.removeControl(color_map_b7f9973159064893a83e9b3c41690486); */
+        /*map_64b9894af4814ae08fe869ab362ce2b4.color_map_b7f9973159064893a83e9b3c41690486*/
+    }
     catch{
         console.log('LEGEND NOT WORKING')
     }
-    console.log(legend)
+    /*console.log(legend)*/
     var text   =JSON.parse(legends)
-    console.log(text)
+    /*console.log(text)*/
     var color_map_b7f9973159064893a83e9b3c41690486 = {};
-    console.log(text[legend].colors)
-    console.log(text[legend].values[0])
+    /*console.log(text[legend].colors)
+    console.log(text[legend].values[0])*/
     color_map_b7f9973159064893a83e9b3c41690486.color = d3.scale.threshold()
           .domain(text[legend].values)
           .range(text[legend].colors);
