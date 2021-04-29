@@ -103,5 +103,12 @@ ul li::before {
 .select_legend {
   font-family: system-ui;
   font-size: 13px;
+  margin-bottom: 20px;
+
+}
+
+.downloadbuttom {
+
+  text-align: center;
 
 }

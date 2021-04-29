@@ -12,6 +12,9 @@ var map_64b9894af4814ae08fe869ab362ce2b4 = L.map('map_64b9894af4814ae08fe869ab36
     worldCopyJump: false,
     crs: L.CRS.EPSG3857,
     zoomControl: true,
+    editable: true,
+    printable: true,
+    downloadable: true
     });
 
 /* Title */
@@ -50,6 +53,7 @@ function readGeojson(geojson_url) {
     }
     var geo_json = new L.GeoJSON.AJAX( Flask.url_for('static', {'filename':'geojson/'+geojson_url+'.geojson' }),{style: function(feature) {return feature.properties.style;}});
     console.log($('.leaflet-control-layers-expanded :selected').val())
+    
     geo_json.addTo(map_64b9894af4814ae08fe869ab362ce2b4 );
     /*geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.setStyle(function(feature) {return feature.properties.style;});*/
             
@@ -76,7 +80,7 @@ function readGeojson(geojson_url) {
         ).join(''))
         +'</table>'
     }, {"sticky": true});
-    $('.leaflet-control-layers-base option[text="'+y+'"]').attr('selected','selected');
+   
     return geo_json
     
 }
@@ -85,23 +89,47 @@ function changeColorMap() {
     console.log('--CHANGING LEGEND AND MAP---')
     var x = document.getElementById("myOption").value;
     var y = $('.leaflet-control-layers-expanded :selected').val()
-    if(y == "Marejadas"){
-        /*geo_json_51446edfa7624e4999700360925288bb.remove()*/
-        createLegend(x)
-        geo_json_51446edfa7624e4999700360925288bb=readGeojson('geo_json_51446edfa7624e4999700360925288bb_'+x)}
-    else if(y =="Calor Extremo"){
-        /*geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove()*/
-        createLegend(x)
-        geo_json_af5fd4f02abf42caaa66306a8ba1d7bb=readGeojson('geo_json_af5fd4f02abf42caaa66306a8ba1d7bb_'+x)}
-    else if(y =="Inundaciones"){
-        createLegend(x)
-        geo_json_a7a99b2187454e69bfb81f6b424dc6bf=readGeojson('geo_json_a7a99b2187454e69bfb81f6b424dc6bf_'+x)}
-    else if(y =="Remoción en Masa"){
-        createLegend(x)
-        geo_json_1c01f61c237048b1a33f3863cd4c9286=readGeojson('geo_json_1c01f61c237048b1a33f3863cd4c9286_'+x)}
-    else if(y =="Incendios Forestales"){
-        createLegend(x)
-        geo_json_775ed9e500574898863ca9e695e4e33c=readGeojson('geo_json_775ed9e500574898863ca9e695e4e33c_'+x) }
+    if(x == 'none'){
+        try{
+            geo_json_51446edfa7624e4999700360925288bb.remove();
+            geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove();
+            geo_json_a7a99b2187454e69bfb81f6b424dc6bf.remove();
+            geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
+            geo_json_775ed9e500574898863ca9e695e4e33c.remove();}
+        catch{
+            console.log('No layers')
+        }
+        try{
+            document.getElementById("legend")
+            .outerHTML = "";
+            /*map_64b9894af4814ae08fe869ab362ce2b4.removeControl(color_map_b7f9973159064893a83e9b3c41690486); */
+            /*map_64b9894af4814ae08fe869ab362ce2b4.color_map_b7f9973159064893a83e9b3c41690486*/
+        }
+        catch{
+            console.log('not removing legend...')
+        }
+
+    }else{
+        if(y == "Marejadas"){
+            /*geo_json_51446edfa7624e4999700360925288bb.remove()*/
+            createLegend(x,y)
+            geo_json_51446edfa7624e4999700360925288bb=readGeojson('geo_json_51446edfa7624e4999700360925288bb_'+x)}
+        else if(y =="Calor Extremo"){
+            /*geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove()*/
+            createLegend(x,y)
+            geo_json_af5fd4f02abf42caaa66306a8ba1d7bb=readGeojson('geo_json_af5fd4f02abf42caaa66306a8ba1d7bb_'+x)}
+        else if(y =="Inundaciones"){
+            createLegend(x,y)
+            geo_json_a7a99b2187454e69bfb81f6b424dc6bf=readGeojson('geo_json_a7a99b2187454e69bfb81f6b424dc6bf_'+x)}
+        else if(y =="Remoción en Masa"){
+            createLegend(x,y)
+            geo_json_1c01f61c237048b1a33f3863cd4c9286=readGeojson('geo_json_1c01f61c237048b1a33f3863cd4c9286_'+x)}
+        else if(y =="Incendios Forestales"){
+            createLegend(x,y)
+            geo_json_775ed9e500574898863ca9e695e4e33c=readGeojson('geo_json_775ed9e500574898863ca9e695e4e33c_'+x) }
+       
+
+    }
    
     
 }
@@ -173,15 +201,17 @@ marker_d67b9d9f28524eec9fc4bc4fd8b7e715.bindTooltip(
 
 $("#myOption").val("none");
 console.log('--LOADING--')
-var x = document.getElementById("myOption").value;
+var x = 'none';
 console.log(x)
 geo_json_1c01f61c237048b1a33f3863cd4c9286=readGeojson('geo_json_1c01f61c237048b1a33f3863cd4c9286_'+x)
 geo_json_775ed9e500574898863ca9e695e4e33c=readGeojson('geo_json_775ed9e500574898863ca9e695e4e33c_'+x)
 geo_json_51446edfa7624e4999700360925288bb=readGeojson('geo_json_51446edfa7624e4999700360925288bb_'+x)
 geo_json_a7a99b2187454e69bfb81f6b424dc6bf=readGeojson('geo_json_a7a99b2187454e69bfb81f6b424dc6bf_'+x)
 geo_json_af5fd4f02abf42caaa66306a8ba1d7bb=readGeojson('geo_json_af5fd4f02abf42caaa66306a8ba1d7bb_'+x)
-/* Layer Control popup */
 
+
+/* Layer Control popup */
+console.log('Layer control select ...')
 var layer_control_45cf59e7a6084e749d632c2f930d60f1 = {
     base_layers : { "Marejadas" : geo_json_51446edfa7624e4999700360925288bb,
     "Calor Extremo" : geo_json_af5fd4f02abf42caaa66306a8ba1d7bb,
@@ -205,15 +235,69 @@ geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove();
 geo_json_a7a99b2187454e69bfb81f6b424dc6bf.remove();
 geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
 geo_json_775ed9e500574898863ca9e695e4e33c.remove();
+var x = 'l1';
+console.log(x)
+geo_json_1c01f61c237048b1a33f3863cd4c9286=readGeojson('geo_json_1c01f61c237048b1a33f3863cd4c9286_'+x)
+geo_json_775ed9e500574898863ca9e695e4e33c=readGeojson('geo_json_775ed9e500574898863ca9e695e4e33c_'+x)
+geo_json_51446edfa7624e4999700360925288bb=readGeojson('geo_json_51446edfa7624e4999700360925288bb_'+x)
+geo_json_a7a99b2187454e69bfb81f6b424dc6bf=readGeojson('geo_json_a7a99b2187454e69bfb81f6b424dc6bf_'+x)
+geo_json_af5fd4f02abf42caaa66306a8ba1d7bb=readGeojson('geo_json_af5fd4f02abf42caaa66306a8ba1d7bb_'+x)
+
+
+geo_json_51446edfa7624e4999700360925288bb.remove();
+geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove();
+geo_json_a7a99b2187454e69bfb81f6b424dc6bf.remove();
+geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
+geo_json_775ed9e500574898863ca9e695e4e33c.remove();
+var x = 'l2';
+console.log(x)
+geo_json_1c01f61c237048b1a33f3863cd4c9286=readGeojson('geo_json_1c01f61c237048b1a33f3863cd4c9286_'+x)
+geo_json_775ed9e500574898863ca9e695e4e33c=readGeojson('geo_json_775ed9e500574898863ca9e695e4e33c_'+x)
+geo_json_51446edfa7624e4999700360925288bb=readGeojson('geo_json_51446edfa7624e4999700360925288bb_'+x)
+geo_json_a7a99b2187454e69bfb81f6b424dc6bf=readGeojson('geo_json_a7a99b2187454e69bfb81f6b424dc6bf_'+x)
+geo_json_af5fd4f02abf42caaa66306a8ba1d7bb=readGeojson('geo_json_af5fd4f02abf42caaa66306a8ba1d7bb_'+x)
+
+
+geo_json_51446edfa7624e4999700360925288bb.remove();
+geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove();
+geo_json_a7a99b2187454e69bfb81f6b424dc6bf.remove();
+geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
+geo_json_775ed9e500574898863ca9e695e4e33c.remove();
+
+var x = 'l3';
+console.log(x)
+geo_json_1c01f61c237048b1a33f3863cd4c9286=readGeojson('geo_json_1c01f61c237048b1a33f3863cd4c9286_'+x)
+geo_json_775ed9e500574898863ca9e695e4e33c=readGeojson('geo_json_775ed9e500574898863ca9e695e4e33c_'+x)
+geo_json_51446edfa7624e4999700360925288bb=readGeojson('geo_json_51446edfa7624e4999700360925288bb_'+x)
+geo_json_a7a99b2187454e69bfb81f6b424dc6bf=readGeojson('geo_json_a7a99b2187454e69bfb81f6b424dc6bf_'+x)
+geo_json_af5fd4f02abf42caaa66306a8ba1d7bb=readGeojson('geo_json_af5fd4f02abf42caaa66306a8ba1d7bb_'+x)
+
+
+geo_json_51446edfa7624e4999700360925288bb.remove();
+geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove();
+geo_json_a7a99b2187454e69bfb81f6b424dc6bf.remove();
+geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
+geo_json_775ed9e500574898863ca9e695e4e33c.remove();
 
 $('.leaflet-control-layers.leaflet-control').hide();
 $(".leaflet-control-layers").addClass("leaflet-control-layers-expanded")
 
 
+
+/* Changing title and description */
 $('.leaflet-control-layers-expanded').change(function(){
     console.log('---CHANGING TITLE---')
     console.log($('.leaflet-control-layers-expanded :selected').val())
+    geo_json_51446edfa7624e4999700360925288bb.remove();
+    geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove();
+    geo_json_a7a99b2187454e69bfb81f6b424dc6bf.remove();
+    geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
+    geo_json_775ed9e500574898863ca9e695e4e33c.remove();
+    y=$('.leaflet-control-layers-expanded :selected').val()
+
+    $('.leaflet-control-layers-base option[text="'+y+'"]').attr('selected','selected');
     var x = document.getElementById("myOption").value;
+    
     if($('#msc-1').attr('data')==$('.leaflet-control-layers-expanded :selected').val()){
     $('#msc-1').show();
     console.log($('.leaflet-control-layers-expanded :selected').val())
@@ -221,6 +305,7 @@ $('.leaflet-control-layers-expanded').change(function(){
     $("#myOption").val("none");
     
     /*readGeojson('geo_json_51446edfa7624e4999700360925288bb_'+x)*/
+    
     }
 
     else if($('#msc-2').attr('data')==$('.leaflet-control-layers-expanded :selected').val()){
@@ -229,6 +314,7 @@ $('.leaflet-control-layers-expanded').change(function(){
     $('#msc-1').hide();$('#msc-2').show();$('#msc-3').hide();$('#msc-4').hide();$('#msc-5').hide()
     $("#myOption").val("none");
     /*readGeojson('geo_json_af5fd4f02abf42caaa66306a8ba1d7bb_'+x)*/
+   
     }
 
     else if($('#msc-3').attr('data')==$('.leaflet-control-layers-expanded :selected').val()){
@@ -237,6 +323,7 @@ $('.leaflet-control-layers-expanded').change(function(){
     $('#msc-1').hide();$('#msc-2').hide();$('#msc-3').show();$('#msc-4').hide();$('#msc-5').hide()
     $("#myOption").val("none");
     /*readGeojson('geo_json_a7a99b2187454e69bfb81f6b424dc6bf_'+x)*/
+   
     }
 
     else if($('#msc-4').attr('data')==$('.leaflet-control-layers-expanded :selected').val()){
@@ -245,6 +332,7 @@ $('.leaflet-control-layers-expanded').change(function(){
     $('#msc-1').hide();$('#msc-2').hide();$('#msc-3').hide();$('#msc-4').show();$('#msc-5').hide()
     $("#myOption").val("none");
     /*readGeojson('geo_json_1c01f61c237048b1a33f3863cd4c9286_'+x)*/
+   
     }
 
     else if($('#msc-5').attr('data')==$('.leaflet-control-layers-expanded :selected').val()){
@@ -253,12 +341,9 @@ $('.leaflet-control-layers-expanded').change(function(){
     $('#msc-1').hide();$('#msc-2').hide();$('#msc-3').hide();$('#msc-4').hide();$('#msc-5').show()
     $("#myOption").val("none");
     /*readGeojson('geo_json_775ed9e500574898863ca9e695e4e33c_'+x)*/
+    
     }
-    geo_json_51446edfa7624e4999700360925288bb.remove();
-    geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove();
-    geo_json_a7a99b2187454e69bfb81f6b424dc6bf.remove();
-    geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
-    geo_json_775ed9e500574898863ca9e695e4e33c.remove();
+    
     try{
         document.getElementById("legend")
         .outerHTML = "";
@@ -268,13 +353,16 @@ $('.leaflet-control-layers-expanded').change(function(){
     catch{
         console.log('not removing legend...')
     }
+    
+    console.log(y)
+    $('.leaflet-control-layers-base option[text="'+y+'"]').attr('selected', true);
 })
 $('#msc-3').show();$('#msc-2').hide();$('#msc-1').hide();$('#msc-4').hide();$('#msc-5').hide()
 
 
 /* Color map legend */
 
-function createLegend(legend){
+function createLegend(legend,y){
     console.log('--CREATING LEGEND--')
     try{
         document.getElementById("legend")
@@ -291,6 +379,7 @@ function createLegend(legend){
     var color_map_b7f9973159064893a83e9b3c41690486 = {};
     /*console.log(text[legend].colors)
     console.log(text[legend].values[0])*/
+    var y = $('.leaflet-control-layers-expanded :selected').val()
     color_map_b7f9973159064893a83e9b3c41690486.color = d3.scale.threshold()
           .domain(text[legend].values)
           .range(text[legend].colors);
@@ -333,26 +422,78 @@ function createLegend(legend){
     color_map_b7f9973159064893a83e9b3c41690486.g.call(color_map_b7f9973159064893a83e9b3c41690486.xAxis).append("text")
         .attr("class", "caption")
         .attr("y", 21)
-        .attr("x",60)
-        .text('Riesgo climatico en Viña del Mar y Valparaíso');
+        .attr("x",20)
+        .text('Riesgo Climático de '+y+' en Viña del Mar y Valparaíso');
     return color_map_b7f9973159064893a83e9b3c41690486
 }
         
-/*color_map_b7f9973159064893a83e9b3c41690486.color = d3.scale.threshold()
-          .domain([0.0, 0.002004008016032064, 0.004008016032064128, 0.006012024048096192, 0.008016032064128256, 0.01002004008016032, 0.012024048096192385, 0.014028056112224449, 0.01603206412825651, 0.018036072144288578, 0.02004008016032064, 0.022044088176352707, 0.02404809619238477, 0.026052104208416832, 0.028056112224448898, 0.03006012024048096, 0.03206412825651302, 0.03406813627254509, 0.036072144288577156, 0.03807615230460922, 0.04008016032064128, 0.04208416833667335, 0.04408817635270541, 0.04609218436873747, 0.04809619238476954, 0.050100200400801605, 0.052104208416833664, 0.05410821643286573, 0.056112224448897796, 0.05811623246492986, 0.06012024048096192, 0.06212424849699399, 0.06412825651302605, 0.06613226452905811, 0.06813627254509018, 0.07014028056112225, 0.07214428857715431, 0.07414829659318638, 0.07615230460921844, 0.0781563126252505, 0.08016032064128256, 0.08216432865731463, 0.0841683366733467, 0.08617234468937876, 0.08817635270541083, 0.09018036072144289, 0.09218436873747494, 0.09418837675350701, 0.09619238476953908, 0.09819639278557114, 0.10020040080160321, 0.10220440881763528, 0.10420841683366733, 0.1062124248496994, 0.10821643286573146, 0.11022044088176353, 0.11222444889779559, 0.11422845691382766, 0.11623246492985972, 0.11823647294589178, 0.12024048096192384, 0.12224448897795591, 0.12424849699398798, 0.12625250501002003, 0.1282565130260521, 0.13026052104208416, 0.13226452905811623, 0.1342685370741483, 0.13627254509018036, 0.13827655310621242, 0.1402805611222445, 0.14228456913827656, 0.14428857715430862, 0.1462925851703407, 0.14829659318637275, 0.15030060120240482, 0.1523046092184369, 0.15430861723446893, 0.156312625250501, 0.15831663326653306, 0.16032064128256512, 0.1623246492985972, 0.16432865731462926, 0.16633266533066132, 0.1683366733466934, 0.17034068136272545, 0.17234468937875752, 0.1743486973947896, 0.17635270541082165, 0.17835671342685372, 0.18036072144288579, 0.18236472945891782, 0.1843687374749499, 0.18637274549098196, 0.18837675350701402, 0.1903807615230461, 0.19238476953907815, 0.19438877755511022, 0.1963927855711423, 0.19839679358717435, 0.20040080160320642, 0.20240480961923848, 0.20440881763527055, 0.20641282565130262, 0.20841683366733466, 0.21042084168336672, 0.2124248496993988, 0.21442885771543085, 0.21643286573146292, 0.218436873747495, 0.22044088176352705, 0.22244488977955912, 0.22444889779559118, 0.22645290581162325, 0.22845691382765532, 0.23046092184368738, 0.23246492985971945, 0.23446893787575152, 0.23647294589178355, 0.23847695390781562, 0.24048096192384769, 0.24248496993987975, 0.24448897795591182, 0.24649298597194388, 0.24849699398797595, 0.250501002004008, 0.25250501002004005, 0.2545090180360721, 0.2565130260521042, 0.25851703406813625, 0.2605210420841683, 0.2625250501002004, 0.26452905811623245, 0.2665330661322645, 0.2685370741482966, 0.27054108216432865, 0.2725450901803607, 0.2745490981963928, 0.27655310621242485, 0.2785571142284569, 0.280561122244489, 0.28256513026052105, 0.2845691382765531, 0.2865731462925852, 0.28857715430861725, 0.2905811623246493, 0.2925851703406814, 0.29458917835671344, 0.2965931863727455, 0.2985971943887776, 0.30060120240480964, 0.3026052104208417, 0.3046092184368738, 0.3066132264529058, 0.30861723446893785, 0.3106212424849699, 0.312625250501002, 0.31462925851703405, 0.3166332665330661, 0.3186372745490982, 0.32064128256513025, 0.3226452905811623, 0.3246492985971944, 0.32665330661322645, 0.3286573146292585, 0.3306613226452906, 0.33266533066132264, 0.3346693386773547, 0.3366733466933868, 0.33867735470941884, 0.3406813627254509, 0.342685370741483, 0.34468937875751504, 0.3466933867735471, 0.3486973947895792, 0.35070140280561124, 0.3527054108216433, 0.35470941883767537, 0.35671342685370744, 0.3587174348697395, 0.36072144288577157, 0.3627254509018036, 0.36472945891783565, 0.3667334669338677, 0.3687374749498998, 0.37074148296593185, 0.3727454909819639, 0.374749498997996, 0.37675350701402804, 0.3787575150300601, 0.3807615230460922, 0.38276553106212424, 0.3847695390781563, 0.3867735470941884, 0.38877755511022044, 0.3907815631262525, 0.3927855711422846, 0.39478957915831664, 0.3967935871743487, 0.39879759519038077, 0.40080160320641284, 0.4028056112224449, 0.40480961923847697, 0.40681362725450904, 0.4088176352705411, 0.41082164328657317, 0.41282565130260523, 0.4148296593186373, 0.4168336673346693, 0.4188376753507014, 0.42084168336673344, 0.4228456913827655, 0.4248496993987976, 0.42685370741482964, 0.4288577154308617, 0.4308617234468938, 0.43286573146292584, 0.4348697394789579, 0.43687374749499, 0.43887775551102204, 0.4408817635270541, 0.44288577154308617, 0.44488977955911824, 0.4468937875751503, 0.44889779559118237, 0.45090180360721444, 0.4529058116232465, 0.45490981963927857, 0.45691382765531063, 0.4589178356713427, 0.46092184368737477, 0.46292585170340683, 0.4649298597194389, 0.46693386773547096, 0.46893787575150303, 0.4709418837675351, 0.4729458917835671, 0.4749498997995992, 0.47695390781563124, 0.4789579158316633, 0.48096192384769537, 0.48296593186372744, 0.4849699398797595, 0.48697394789579157, 0.48897795591182364, 0.4909819639278557, 0.49298597194388777, 0.49498997995991983, 0.4969939879759519, 0.49899799599198397, 0.501002004008016, 0.503006012024048, 0.5050100200400801, 0.5070140280561122, 0.5090180360721442, 0.5110220440881763, 0.5130260521042084, 0.5150300601202404, 0.5170340681362725, 0.5190380761523046, 0.5210420841683366, 0.5230460921843687, 0.5250501002004008, 0.5270541082164328, 0.5290581162324649, 0.531062124248497, 0.533066132264529, 0.5350701402805611, 0.5370741482965932, 0.5390781563126252, 0.5410821643286573, 0.5430861723446894, 0.5450901803607214, 0.5470941883767535, 0.5490981963927856, 0.5511022044088176, 0.5531062124248497, 0.5551102204408818, 0.5571142284569138, 0.5591182364729459, 0.561122244488978, 0.56312625250501, 0.5651302605210421, 0.5671342685370742, 0.5691382765531062, 0.5711422845691383, 0.5731462925851704, 0.5751503006012024, 0.5771543086172345, 0.5791583166332666, 0.5811623246492986, 0.5831663326653307, 0.5851703406813628, 0.5871743486973948, 0.5891783567134269, 0.591182364729459, 0.593186372745491, 0.5951903807615231, 0.5971943887775552, 0.5991983967935872, 0.6012024048096193, 0.6032064128256514, 0.6052104208416834, 0.6072144288577155, 0.6092184368737475, 0.6112224448897795, 0.6132264529058116, 0.6152304609218436, 0.6172344689378757, 0.6192384769539078, 0.6212424849699398, 0.6232464929859719, 0.625250501002004, 0.627254509018036, 0.6292585170340681, 0.6312625250501002, 0.6332665330661322, 0.6352705410821643, 0.6372745490981964, 0.6392785571142284, 0.6412825651302605, 0.6432865731462926, 0.6452905811623246, 0.6472945891783567, 0.6492985971943888, 0.6513026052104208, 0.6533066132264529, 0.655310621242485, 0.657314629258517, 0.6593186372745491, 0.6613226452905812, 0.6633266533066132, 0.6653306613226453, 0.6673346693386774, 0.6693386773547094, 0.6713426853707415, 0.6733466933867736, 0.6753507014028056, 0.6773547094188377, 0.6793587174348698, 0.6813627254509018, 0.6833667334669339, 0.685370741482966, 0.687374749498998, 0.6893787575150301, 0.6913827655310621, 0.6933867735470942, 0.6953907815631263, 0.6973947895791583, 0.6993987975951904, 0.7014028056112225, 0.7034068136272545, 0.7054108216432866, 0.7074148296593187, 0.7094188376753507, 0.7114228456913828, 0.7134268537074149, 0.7154308617234469, 0.717434869739479, 0.7194388777555111, 0.7214428857715431, 0.7234468937875751, 0.7254509018036072, 0.7274549098196392, 0.7294589178356713, 0.7314629258517034, 0.7334669338677354, 0.7354709418837675, 0.7374749498997996, 0.7394789579158316, 0.7414829659318637, 0.7434869739478958, 0.7454909819639278, 0.7474949899799599, 0.749498997995992, 0.751503006012024, 0.7535070140280561, 0.7555110220440882, 0.7575150300601202, 0.7595190380761523, 0.7615230460921844, 0.7635270541082164, 0.7655310621242485, 0.7675350701402806, 0.7695390781563126, 0.7715430861723447, 0.7735470941883767, 0.7755511022044088, 0.7775551102204409, 0.779559118236473, 0.781563126252505, 0.7835671342685371, 0.7855711422845691, 0.7875751503006012, 0.7895791583166333, 0.7915831663326653, 0.7935871743486974, 0.7955911823647295, 0.7975951903807615, 0.7995991983967936, 0.8016032064128257, 0.8036072144288577, 0.8056112224448898, 0.8076152304609219, 0.8096192384769539, 0.811623246492986, 0.8136272545090181, 0.8156312625250501, 0.8176352705410822, 0.8196392785571143, 0.8216432865731463, 0.8236472945891784, 0.8256513026052105, 0.8276553106212425, 0.8296593186372746, 0.8316633266533067, 0.8336673346693386, 0.8356713426853707, 0.8376753507014028, 0.8396793587174348, 0.8416833667334669, 0.843687374749499, 0.845691382765531, 0.8476953907815631, 0.8496993987975952, 0.8517034068136272, 0.8537074148296593, 0.8557114228456913, 0.8577154308617234, 0.8597194388777555, 0.8617234468937875, 0.8637274549098196, 0.8657314629258517, 0.8677354709418837, 0.8697394789579158, 0.8717434869739479, 0.87374749498998, 0.875751503006012, 0.8777555110220441, 0.8797595190380761, 0.8817635270541082, 0.8837675350701403, 0.8857715430861723, 0.8877755511022044, 0.8897795591182365, 0.8917835671342685, 0.8937875751503006, 0.8957915831663327, 0.8977955911823647, 0.8997995991983968, 0.9018036072144289, 0.9038076152304609, 0.905811623246493, 0.9078156312625251, 0.9098196392785571, 0.9118236472945892, 0.9138276553106213, 0.9158316633266533, 0.9178356713426854, 0.9198396793587175, 0.9218436873747495, 0.9238476953907816, 0.9258517034068137, 0.9278557114228457, 0.9298597194388778, 0.9318637274549099, 0.9338677354709419, 0.935871743486974, 0.9378757515030061, 0.9398797595190381, 0.9418837675350702, 0.9438877755511023, 0.9458917835671342, 0.9478957915831663, 0.9498997995991983, 0.9519038076152304, 0.9539078156312625, 0.9559118236472945, 0.9579158316633266, 0.9599198396793587, 0.9619238476953907, 0.9639278557114228, 0.9659318637274549, 0.9679358717434869, 0.969939879759519, 0.9719438877755511, 0.9739478957915831, 0.9759519038076152, 0.9779559118236473, 0.9799599198396793, 0.9819639278557114, 0.9839679358717435, 0.9859719438877755, 0.9879759519038076, 0.9899799599198397, 0.9919839679358717, 0.9939879759519038, 0.9959919839679359, 0.9979959919839679, 1.0])
-          .range(['#52be80ff', '#53bf7fff', '#53c07eff', '#54c07dff', '#55c17dff', '#56c27cff', '#57c27bff', '#57c37aff', '#58c379ff', '#59c478ff', '#5ac577ff', '#5bc576ff', '#5bc676ff', '#5cc775ff', '#5dc774ff', '#5ec873ff', '#5fc972ff', '#5fc971ff', '#60ca70ff', '#61cb70ff', '#62cb6fff', '#63cc6eff', '#63cd6dff', '#64cd6cff', '#65ce6bff', '#66cf6aff', '#66cf6aff', '#67d069ff', '#68d168ff', '#69d167ff', '#6ad266ff', '#6ad365ff', '#6bd364ff', '#6cd463ff', '#6dd463ff', '#6ed562ff', '#6ed661ff', '#6fd660ff', '#70d75fff', '#71d85eff', '#72d85dff', '#72d95dff', '#73da5cff', '#74da5bff', '#75db5aff', '#76dc59ff', '#76dc58ff', '#77dd57ff', '#78de56ff', '#79de56ff', '#7adf55ff', '#7ae054ff', '#7be053ff', '#7ce152ff', '#7de251ff', '#7ee250ff', '#7ee350ff', '#7fe44fff', '#80e44eff', '#81e54dff', '#82e54cff', '#82e64bff', '#83e74aff', '#84e74aff', '#85e849ff', '#85e948ff', '#86e947ff', '#87ea46ff', '#88eb45ff', '#89eb44ff', '#89ec43ff', '#8aed43ff', '#8bed42ff', '#8cee41ff', '#8def40ff', '#8def3fff', '#8ef03eff', '#8ff13dff', '#90f13dff', '#91f23cff', '#91f33bff', '#92f33aff', '#93f439ff', '#94f538ff', '#95f537ff', '#95f636ff', '#96f636ff', '#97f735ff', '#98f834ff', '#99f833ff', '#99f932ff', '#9afa31ff', '#9bfa30ff', '#9cfb30ff', '#9dfc2fff', '#9dfc2eff', '#9efd2dff', '#9ffe2cff', '#a0fe2bff', '#a0ff2aff', '#a1ff2aff', '#a2ff29ff', '#a3ff29ff', '#a4ff28ff', '#a5ff28ff', '#a6ff28ff', '#a6ff27ff', '#a7ff27ff', '#a8ff27ff', '#a9ff26ff', '#aaff26ff', '#abff25ff', '#acff25ff', '#adff25ff', '#adff24ff', '#aeff24ff', '#afff23ff', '#b0ff23ff', '#b1ff23ff', '#b2ff22ff', '#b3ff22ff', '#b3ff22ff', '#b4ff21ff', '#b5ff21ff', '#b6ff20ff', '#b7ff20ff', '#b8ff20ff', '#b9ff1fff', '#baff1fff', '#baff1fff', '#bbff1eff', '#bcff1eff', '#bdff1dff', '#beff1dff', '#bfff1dff', '#c0ff1cff', '#c0ff1cff', '#c1ff1bff', '#c2ff1bff', '#c3ff1bff', '#c4ff1aff', '#c5ff1aff', '#c6ff1aff', '#c7ff19ff', '#c7ff19ff', '#c8ff18ff', '#c9ff18ff', '#caff18ff', '#cbff17ff', '#ccff17ff', '#cdff16ff', '#cdff16ff', '#ceff16ff', '#cfff15ff', '#d0ff15ff', '#d1ff15ff', '#d2ff14ff', '#d3ff14ff', '#d3ff13ff', '#d4ff13ff', '#d5ff13ff', '#d6ff12ff', '#d7ff12ff', '#d8ff12ff', '#d9ff11ff', '#daff11ff', '#daff10ff', '#dbff10ff', '#dcff10ff', '#ddff0fff', '#deff0fff', '#dfff0eff', '#e0ff0eff', '#e0ff0eff', '#e1ff0dff', '#e2ff0dff', '#e3ff0dff', '#e4ff0cff', '#e5ff0cff', '#e6ff0bff', '#e7ff0bff', '#e7ff0bff', '#e8ff0aff', '#e9ff0aff', '#eaff09ff', '#ebff09ff', '#ecff09ff', '#edff08ff', '#edff08ff', '#eeff08ff', '#efff07ff', '#f0ff07ff', '#f1ff06ff', '#f2ff06ff', '#f3ff06ff', '#f3ff05ff', '#f4ff05ff', '#f5ff05ff', '#f6ff04ff', '#f7ff04ff', '#f8fe03ff', '#f8fd03ff', '#f8fc03ff', '#f8fa03ff', '#f8f903ff', '#f8f803ff', '#f8f703ff', '#f8f603ff', '#f8f403ff', '#f8f303ff', '#f8f203ff', '#f8f103ff', '#f8f003ff', '#f9ee03ff', '#f9ed03ff', '#f9ec03ff', '#f9eb03ff', '#f9ea03ff', '#f9e803ff', '#f9e703ff', '#f9e603ff', '#f9e503ff', '#f9e403ff', '#f9e203ff', '#f9e103ff', '#fae002ff', '#fadf02ff', '#fade02ff', '#fadc02ff', '#fadb02ff', '#fada02ff', '#fad902ff', '#fad802ff', '#fad702ff', '#fad502ff', '#fad402ff', '#fad302ff', '#fad202ff', '#fbd102ff', '#fbcf02ff', '#fbce02ff', '#fbcd02ff', '#fbcc02ff', '#fbcb02ff', '#fbc902ff', '#fbc802ff', '#fbc702ff', '#fbc602ff', '#fbc502ff', '#fbc302ff', '#fcc201ff', '#fcc101ff', '#fcc001ff', '#fcbf01ff', '#fcbd01ff', '#fcbc01ff', '#fcbb01ff', '#fcba01ff', '#fcb901ff', '#fcb701ff', '#fcb601ff', '#fcb501ff', '#fcb401ff', '#fdb301ff', '#fdb101ff', '#fdb001ff', '#fdaf01ff', '#fdae01ff', '#fdad01ff', '#fdab01ff', '#fdaa01ff', '#fda901ff', '#fda801ff', '#fda701ff', '#fda501ff', '#fea400ff', '#fea300ff', '#fea200ff', '#fea100ff', '#fe9f00ff', '#fe9e00ff', '#fe9d00ff', '#fe9c00ff', '#fe9b00ff', '#fe9900ff', '#fe9800ff', '#fe9700ff', '#ff9600ff', '#ff9500ff', '#ff9300ff', '#ff9200ff', '#ff9100ff', '#ff9000ff', '#ff8f00ff', '#ff8d00ff', '#ff8c00ff', '#ff8b00ff', '#ff8a00ff', '#ff8900ff', '#ff8800ff', '#ff8600ff', '#fe8500ff', '#fd8400ff', '#fc8300ff', '#fb8100ff', '#fa8000ff', '#fa7f00ff', '#f97e01ff', '#f87d01ff', '#f77b01ff', '#f67a01ff', '#f57901ff', '#f47801ff', '#f37601ff', '#f27502ff', '#f17402ff', '#f07302ff', '#f07202ff', '#ef7002ff', '#ee6f02ff', '#ed6e02ff', '#ec6d03ff', '#eb6c03ff', '#ea6a03ff', '#e96903ff', '#e86803ff', '#e76703ff', '#e76503ff', '#e66404ff', '#e56304ff', '#e46204ff', '#e36104ff', '#e25f04ff', '#e15e04ff', '#e05d04ff', '#df5c05ff', '#de5a05ff', '#dd5905ff', '#dd5805ff', '#dc5705ff', '#db5605ff', '#da5405ff', '#d95305ff', '#d85206ff', '#d75106ff', '#d65006ff', '#d54e06ff', '#d44d06ff', '#d44c06ff', '#d34b06ff', '#d24907ff', '#d14807ff', '#d04707ff', '#cf4607ff', '#ce4507ff', '#cd4307ff', '#cc4207ff', '#cb4108ff', '#ca4008ff', '#ca3e08ff', '#c93d08ff', '#c83c08ff', '#c73b08ff', '#c63a08ff', '#c53809ff', '#c43709ff', '#c33609ff', '#c23509ff', '#c13409ff', '#c03209ff', '#c03109ff', '#bf300aff', '#be2f0aff', '#bd2d0aff', '#bc2c0aff', '#bb2b0aff', '#ba2a0aff', '#b9290aff', '#b8270bff', '#b7260bff', '#b7250bff', '#b6240bff', '#b5220bff', '#b4210bff', '#b3200bff', '#b21f0cff', '#b11e0cff', '#b01c0cff', '#af1b0cff', '#ae1a0cff', '#ad190cff', '#ad180cff', '#ac160dff', '#ab150dff', '#aa140dff', '#a9130dff', '#a8110dff', '#a7100dff', '#a60f0dff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff', '#a50e0eff'])
+function exportMap() {
+    var exportOptions = {
+      container: map_64b9894af4814ae08fe869ab362ce2b4._container,
+      caption: {
+        text: 'Карта',
+        font: '30px Arial',
+        fillStyle: 'black',
+        position: [100, 200]
+      },
+      exclude: ['.leaflet-control-zoom', '.leaflet-control-attribution'],
+      format: 'image/jpg'
+    };
+    var exportedlement = map_64b9894af4814ae08fe869ab362ce2b4.export(exportOptions).then(
+      result = function (value) {
+        var i = 1;
+      }
+    );
+  }
 
-          /* TEST --- CHANGE LEGEND STYLE */
+  function afterRender(result) {
+    return result;
+  }
 
+  function afterExport(result) {
+    return result;
+  }
 
+  function downloadMap(caption) {
+    var downloadOptions = {
+      container: map_64b9894af4814ae08fe869ab362ce2b4._container,
+      caption: {
+        text: caption,
+        font: '30px Arial',
+        fillStyle: 'black',
+        position: [100, 200]
+      },
+      exclude: ['.leaflet-control-zoom', '.leaflet-control-attribution'],
+      format: 'image/png',
+      fileName: 'Map.png',
+      afterRender: afterRender,
+      afterExport: afterExport
+    };
+    var promise = map_64b9894af4814ae08fe869ab362ce2b4.downloadExport(downloadOptions);
+    var data = promise.then(function (result) {
+      return result;
+    });
+  }
 
-
-
-/* TEST --- CHANGE LEGEND STYLE */
-
-/*console.log(text.legend1.values)
-console.log(text.legend1.colors)*/
-
+  function printMap(caption) {
+    var printOptions = {
+      container: map_64b9894af4814ae08fe869ab362ce2b4._container,
+      exclude: ['.leaflet-control-zoom'],
+      format: 'image/png',
+      afterRender: afterRender,
+      afterExport: afterExport
+    };
+    printOptions.caption = {
+      text: caption,
+      font: '30px Arial',
+      fillStyle: 'black',
+      position: [50, 50]
+    };
+    var promise = map_64b9894af4814ae08fe869ab362ce2b4.printExport(printOptions);
+    var data = promise.then(function (result) {
+      return result;
+    });
+  }
 
 
 

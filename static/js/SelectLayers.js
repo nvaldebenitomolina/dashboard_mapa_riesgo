@@ -60,8 +60,7 @@
       /*var selectedLayer = this._layers[selectedLayerOption.layerId]*/
       var selectedLayer = this._layers[selectedLayerIndex]
       /*console.log(selectedLayerIndex)
-      console.log(selectedLayerOption)
-      console.log(test)*/
+      console.log(selectedLayerOption)*/
       this._changeBaseLayer(selectedLayer)
     }
   
