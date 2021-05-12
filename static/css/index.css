@@ -16,12 +16,13 @@ padding:40px;
     color: #fff7f7;
     font-size: 40px;
     font-weight: bolder;
-    font-family: system-ui;
+    font-family: 'Ubuntu', sans-serif;
     margin-bottom: 0px;
     margin-top: 0px;
 }
 .p3 {
-  font-family: system-ui;
+  font-family: 'Open Sans', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   font-size: 13px;
   /* background: #e6e6e6; */
   border-radius: 5px;
@@ -32,13 +33,55 @@ padding:40px;
     margin: 0 0 10px;
     font-size: medium;
     padding: 10px;
-    font-family: unset;
+    font-family: 'Open Sans', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
 }
 
+.menuitem {
+    font-family: 'Open Sans', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
+}
 
+.general-text {
+    font-family: 'Open Sans', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
+}
 
+.head1 {
+  font-family: 'Open Sans', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
+  background-color: #454058;
+  color:white;
+  font-size: 17px;  
+  float: left;
+  padding: 14px;
+  text-align:center;
+}
+
+.head2 {
+  font-family: 'Open Sans', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
+  background-color: #454058;
+  color:white;
+  font-size: 17px;
+  padding: 14px;
+  float: right;
+  text-align:center;
+}
+
+.head3 {
+  font-family: 'Open Sans', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
+  background-color: #454058;
+  color:white;
+  font-size: 17px;
+  padding: 14px;
+  float: unset;
+  text-align:center;
+}
 .p1 {
-  font-family: system-ui;
+  font-family: 'Open Sans', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   font-size: 13px;
   background: #ececec;
   border-radius: 5px;
@@ -90,7 +133,8 @@ ul li::before {
 }
 
 #jpt {
-  font-family: system-ui;
+  font-family: 'Open Sans', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   font-size: 13px;
   /*background: #e6e6e6;*/
   border-radius: 5px;
@@ -101,7 +145,8 @@ ul li::before {
 }
 
 .select_legend {
-  font-family: system-ui;
+  font-family: 'Open Sans', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   font-size: 13px;
   margin-bottom: 20px;
 

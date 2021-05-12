@@ -12,6 +12,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.4.0/dist/leaflet.css"/>
     
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Ubuntu:wght@500&display=swap" rel="stylesheet">
       <!-- Modal -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     
@@ -45,9 +49,9 @@
            
     </header>
     <div class="row">
-        <div class="col" style="background-color: #454058;color:white;font-size: 17px;font-family: unset;float: left;padding: 14px;text-align:center;"> <a href="/static/pdf/Instructivo_WMS_WGIS.pdf" target="_blank" style="color:white;">  Acceder como WMS/QGIS </a> </div>
-        <div class="col" style="background-color: #454058;color:white;font-size: 17px;font-family: unset;padding: 14px;float: right;text-align:center;"> <a href="/static/pdf/Informe%20ARCLIM%20piloto%20Vi%C3%B1a%20Valpo.pdf" target="_blank" style="color:white;"> Informe Mapa de Riesgos</a></div>
-        <div class="col text-center" style="background-color: #454058;color:white;font-size: 17px;font-family: unset;padding: 14px;float: unset;text-align:center;"> <a href="/static/shapefiles/shapefiles.zip" target="_blank" style="color:white;">  Descarga de archivos </a></div>
+        <div class="col head1" > <a href="/static/pdf/Instructivo_WMS_WGIS.pdf" target="_blank" style="color:white;">  Acceder como WMS/QGIS </a> </div>
+        <div class="col head2" > <a href="/static/pdf/Informe%20ARCLIM%20piloto%20Vi%C3%B1a%20Valpo.pdf" target="_blank" style="color:white;"> Informe Mapa de Riesgos</a></div>
+        <div class="col head3 text-center" > <a href="/static/shapefiles/shapefiles.zip" target="_blank" style="color:white;">  Descarga de archivos </a></div>
     </div>
     <div class="row">
         <div class="column1">
@@ -166,17 +170,17 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Por favor, tener en consideración :</h5>
+                    <h5 class="modal-title general-text">Por favor, tener en consideración:</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body general-text">
                     <p>
                         <ul>
                
-                            <li> Este estudio está limitado para las comunas de Viña del Mar y Valparaíso. </li>
-                            <li> Los resultados son relativos al territorio de estudio y no son comparables ni extrapolables a otras áreas de estudio.</li>
-                            <li> Se consideraron condiciones actuales (2014-2018) las que pueden variar en el futuro.</li>
-                            <li> Proyecto surgido al alero del Atlas de Riesgos Climáticos para Chile <a href='https://arclim.mma.gob.cl/'>ARClim</a>.</li>
+                            <li> Este estudio está limitado a las zonas urbanas de las comunas de Valparaíso y Viña del Mar, Región de Valparaíso, Chile. El proyecto se originó al alero del proyecto Atlas de Riesgos Climáticos del Ministerio de Medio Ambiente de Chile (<a href='https://arclim.mma.gob.cl/'>ARClim</a>)</li>
+                            <li> Los resultados son relativos al territorio de estudio y no son comparables ni extrapolables a otras comunas o regiones.</li>
+                            <li> Los resultados muestran el riesgo presente (2014-2018), el cual podría variar en el futuro, como efecto de una intensificación del cambio climático o los patrones de urbanización. En este análisis no se consideran proyecciones climáticas futuras.</li>
+                           
                         </ul>
 
 
