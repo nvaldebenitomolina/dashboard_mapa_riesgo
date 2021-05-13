@@ -3,7 +3,13 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <script>L_PREFER_CANVAS=false; L_NO_TOUCH=false; L_DISABLE_3D=false;</script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.4.0/dist/leaflet.js"></script>
+
     
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+
+
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
@@ -32,6 +38,7 @@
      <script  src="{{ url_for('static', filename="js/html2canvas.svg.js") }}"></script>
      <script  src="{{ url_for('static', filename="js/html2canvas.svg.min.js") }}"></script>
      <script  src="{{ url_for('static', filename="js/leaflet_export.js") }}"></script>
+     <!-- <script  src="{{ url_for('static', filename="js/FileSaver.js") }}"></script>-->
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="css/index.css") }}"></script>
     
@@ -59,27 +66,37 @@
                 El riesgo climático considera índices de amenaza, exposición, sensibilidad y capacidad de respuesta.  El estudio tiene una resolución a nivel de manzana censal.
                  <br>
             </p>
+            <div class="row">
+                <div class="col">
+                    <p class="p3">
+                        1. Selecciona una amenaza climática:
+                    </p>
+                    <div id='jpt'></div>
+                </div>
+                <div class=col>
+                    <p class="p3">
+                        3. Elige la escala de colores para visualizar el riesgo
+                    </p>
+                    <!-- The second value will be selected initially -->
+                    <select name="select" id="myOption" onchange="changeColorMap()" class="select_legend form-control form-control-sm"  placeholder=".form-control-sm">
+                        <option value="none">None</option>
+                        <option value="l1">Verde a Rojo</option>
+                        <option value="l2">Morado a amarillo</option>
+                        <option value="l3">Amarillo a negro</option>
+                    </select>
+                    <div class="downloadbuttom">
             
-            <p class="p3">
-                Amenazas Climáticas:
-            </p>
-            <div id='jpt'></div>
-            <p class="p3">
-                Escala de colores:
-            </p>
-            <!-- The second value will be selected initially -->
-            <select name="select" id="myOption" onchange="changeColorMap()" class="select_legend form-control form-control-sm"  placeholder=".form-control-sm">
-                <option value="none">None</option>
-                <option value="l1">Leyenda 1</option>
-                <option value="l2">Leyenda 2</option>
-                <option value="l3">Leyenda 3</option>
-            </select>
-            <div class="downloadbuttom">
-                <button class="btn btn-secondary btn-sm" onclick="downloadMap()">Descargar mapa </button>
-                <!--<button class="btn btn-secondary" onclick="exportMap()">Export map </button>
-                <button class="btn btn-secondary" onclick="printMap()">Print map </button>-->
+                        <button class="btn btn-secondary btn-sm" onclick="downloadMap()" >Descargar mapa </button>
+                        <!--<button class="btn btn-secondary" onclick="exportMap()">Export map </button>
+                        <button class="btn btn-secondary" onclick="printMap()">Print map </button>-->
+            
+                    </div>
+                    
 
+                </div>
+                
             </div>
+            
          
             
             <p class="p1">
@@ -110,8 +127,9 @@
         </div>
         <div class="column2">
             <p id='title'>
-                <div class="menuitem" data="Calor Extremo" id="msc-1"> 
-                    <h4>Mapa de Riesgo ante Calor Extremo</h4>
+                <div class="menuitem" data="Calor Extremo" id="msc-1">
+                    
+                    <h4><img src="/static/images/calor extremo.png" alt="icon1" ,="" style="width:30px; padding:3px;">Mapa de Riesgo ante Calor Extremo</h4>
                     El mapa de Riesgo muestra la distribución relativa del riesgo asociado a
                     condiciones de calor extremo, reflejando una combinación de los patrones observados en
                     los mapas mostrados anteriormente. En términos generales, el riesgo se concentra en la
@@ -120,7 +138,7 @@
                     poblacional. Por otro lado, destaca el menor riesgo que presenta la zona de playa ancha en
                     Valparaíso acorde a la menor amenaza registrada en dicha zona.</div>
                 <div class="menuitem" data="Inundaciones" id="msc-2">
-                    <h4>Mapa de Riesgo ante Inundaciones por desbordes de
+                    <h4> <img src="/static/images/inundaciones.png" alt="icon2" ,="" style="width:30px; padding:3px;">Mapa de Riesgo ante Inundaciones por desbordes de
                         colectores de aguas lluvias, ríos, esteros y quebradas</h4>
                         El mapa de riesgo muestra la distribución relativa del Riesgo asociado a
                         inundaciones, solo se presenta riesgo en las áreas donde
@@ -129,7 +147,7 @@
                         riesgo mayor debido a sus condiciones de exposición y vulnerabilidad.
                     </div>
                 <div class="menuitem" data="Marejadas" id="msc-3">
-                    <h4>Mapa de Riesgo ante Inundaciones del borde costero por marejadas</h4>
+                    <h4> <img src="/static/images/marejadas.png" alt="icon3" ,="" style="width:30px; padding:3px;">Mapa de Riesgo ante Inundaciones del borde costero por marejadas</h4>
                     El mapa de riesgo muestra la distribución relativa del riesgo asociado a
                     marejadas, solo se presenta riesgo en las áreas donde existe la amenaza. 
                     El riesgo permite considerar ciertas áreas que a pesar de estar escasamente amenazadas presentan un
@@ -137,7 +155,7 @@
                     destaca el alto riesgo que presenta la parte norte de la comuna de Valparaíso.
                     </div>
                 <div class="menuitem" data="Remoción en Masa" id="msc-4">
-                    <h4>Mapa de Riesgo ante Remoción en masa y deslizamientos</h4>
+                    <h4><img src="/static/images/remociones en masa.png" alt="icon3" ,="" style="width:30px; padding:3px;">Mapa de Riesgo ante Remoción en masa y deslizamientos</h4>
                     El mapa de riesgo muestra la distribución relativa del riesgo asociado a remoción
                     en masa y deslizamientos, solo se presenta riesgo en las áreas
                     donde existe la amenaza. Permite considerar ciertas áreas que, pese a estar escasamente
@@ -153,7 +171,7 @@
                     Finalmente no se debe obviar la presencia de algunos sectores de alto riesgo en Viña del
                     Mar, donde la alta vulnerabilidad de dichos se hace presente en el Mapa de riesgo.</div>
                 <div class="menuitem" data="Incendios Forestales" id="msc-5">
-                    <h4>Mapa de Riesgo ante Incendios Forestales</h4>
+                    <h4><img src="/static/images/incendios.png" alt="icon3" ,="" style="width:30px; padding:3px;">Mapa de Riesgo ante Incendios Forestales</h4>
                     Mapa de Riesgo ante Incendios muestra 
                     la distribución relativa del riesgo asociado a incendios forestales, solo se presenta riesgo en las áreas donde
                     existe la amenaza. Permite
@@ -165,6 +183,8 @@
             </p>
             
             <div class="folium-map" id="map_64b9894af4814ae08fe869ab362ce2b4" ></div>  
+            
+        
            
             
         </div>

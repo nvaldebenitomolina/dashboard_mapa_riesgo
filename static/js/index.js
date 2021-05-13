@@ -17,6 +17,9 @@ var map_64b9894af4814ae08fe869ab362ce2b4 = L.map('map_64b9894af4814ae08fe869ab36
     downloadable: true
     });
 
+
+
+
 /* Title */
 var tile_layer_7fb2e0f6fe2e4c3c8a268247fc549c37 = L.tileLayer(
     'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
@@ -36,6 +39,47 @@ var tile_layer_7fb2e0f6fe2e4c3c8a268247fc549c37 = L.tileLayer(
             "opacity": 0.65,
             "weight": 5
         };
+
+
+// d3.json('static/geojson/geo_json_51446edfa7624e4999700360925288bb_l3.geojson' , function(json) {
+
+     
+//   Plotly.newPlot('MyDiv', [{
+//     type: 'scattermapbox',
+//     lat:  [-33.04],
+//     lon: [-71.56635993377701],
+//     }], {
+//     title: "Riesgo Climático",
+//     height: 600,
+//     width: 600,
+//     mapbox: {
+//         center: {
+//         lat:-33.04,
+//         lon: -71.56635993377701
+//         },
+//         style: 'light',
+//         zoom: 10,
+//         layers: [
+//         {
+//             sourcetype: 'geojson',
+//             source: json,
+//             type: 'fill',
+//             color: function(feature) {return feature.properties.style;}
+//             ,
+//             //color: json.features.properties
+//         }
+//         ]
+
+//     }
+//     }, {
+//     mapboxAccessToken: 'pk.eyJ1IjoibmFuY3l2IiwiYSI6ImNqdWJ3NzJxbTBpMG0zeXBnNnE1cWhmd3QifQ.-eb2vW6FClCDyeAC1zIrjg'
+//     });
+//     console.log(json.features)
+
+    
+// });
+
+
 
 function readGeojson(geojson_url) {
     console.log('---READING LAYER---')
@@ -434,7 +478,7 @@ function exportMap() {
         text: 'Карта',
         font: '30px Arial',
         fillStyle: 'black',
-        position: [100, 200]
+        position: [200, 200]
       },
       exclude: ['.leaflet-control-zoom', '.leaflet-control-attribution'],
       format: 'image/jpg'
@@ -461,7 +505,7 @@ function exportMap() {
         text: caption,
         font: '30px Arial',
         fillStyle: 'black',
-        position: [100, 200]
+        position: [80, 80]
       },
       exclude: ['.leaflet-control-zoom', '.leaflet-control-attribution'],
       format: 'image/png',
@@ -475,26 +519,37 @@ function exportMap() {
     });
   }
 
-  function printMap(caption) {
-    var printOptions = {
-      container: map_64b9894af4814ae08fe869ab362ce2b4._container,
-      exclude: ['.leaflet-control-zoom'],
-      format: 'image/png',
-      afterRender: afterRender,
-      afterExport: afterExport
-    };
-    printOptions.caption = {
-      text: caption,
-      font: '30px Arial',
-      fillStyle: 'black',
-      position: [50, 50]
-    };
-    var promise = map_64b9894af4814ae08fe869ab362ce2b4.printExport(printOptions);
-    var data = promise.then(function (result) {
-      return result;
-    });
-  }
+function printMap(caption) {
+var printOptions = {
+    container: map_64b9894af4814ae08fe869ab362ce2b4._container,
+    exclude: ['.leaflet-control-zoom'],
+    format: 'image/png',
+    afterRender: afterRender,
+    afterExport: afterExport
+};
+printOptions.caption = {
+    text: caption,
+    font: '30px Arial',
+    fillStyle: 'black',
+    position: [50, 50]
+};
+var promise = map_64b9894af4814ae08fe869ab362ce2b4.printExport(printOptions);
+var data = promise.then(function (result) {
+    return result;
+});
+}
+
+// $(function() { 
+//     $("#downloadbuttom").click(function() { 
+//         html2canvas($("#map_64b9894af4814ae08fe869ab362ce2b4"), {
+//             onrendered: function(canvas) {
+//                 theCanvas = canvas;
 
 
-
-
+//                 canvas.toBlob(function(blob) {
+//                     saveAs(blob, "Dashboard.png"); 
+//                 });
+//             }
+//         });
+//     });
+// });
