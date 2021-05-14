@@ -43,6 +43,8 @@
       L.DomEvent.on(this._baseLayersList, 'change', this._onBaseLayerOptionChange, this)
   
       this._separator = L.DomUtil.create('div', className + '-separator', form)
+      this._title = L.DomUtil.create('p', 'p4', form)
+      this._title.innerHTML += "2. Elige los marcadores que deseas visualizar"
   
       this._overlaysList = L.DomUtil.create('select', className + '-overlays', form)
       this._overlaysList.setAttribute('multiple', true)
@@ -85,20 +87,49 @@
       var options = this._overlaysList.options
       for (var i = 0; i < options.length; i++) {
         var option = options[i]
+        //console.log(option.text)
+        //console.log(option.selected)
+        var layer1 = this._layers[5].layer //Renaca
+        var layer2 = this._layers[6].layer // Marga Marga
+        //console.log('selected layers')
+        //console.log(this._layers[6].layer)
+        //console.log(this._layers[6].name)
         
-        var layer1 = this._layers[5].layer
-        var layer2 = this._layers[6].layer
-        if (option.selected) {
-          if (!this._map.hasLayer(layer1)) {
-            this._map.addLayer(layer1)
-            this._map.removeLayer(layer2)
+        // console.log(layer2)
+        // if (option.selected) {
+        //   if (!this._map.hasLayer(layer1)) {
+        //     this._map.addLayer(layer1)
+        //     this._map.removeLayer(layer2)
+        //   }
+        // } else {
+        //   if (this._map.hasLayer(layer1)) {
+        //     this._map.addLayer(layer2)
+        //     this._map.removeLayer(layer1)
+        //   }
+        // }
+        if (option.selected == true) {
+          if (option.text == this._layers[5].name){
+            this._map.addLayer(this._layers[5].layer)
           }
-        } else {
-          if (this._map.hasLayer(layer1)) {
-            this._map.addLayer(layer2)
-            this._map.removeLayer(layer1)
+          else if (option.text == this._layers[6].name){
+            this._map.addLayer(this._layers[6].layer)
+
           }
+          
+          
+          
+        }else if (option.selected == false){
+        
+          if (option.text == this._layers[5].name){
+            this._map.removeLayer(this._layers[5].layer)
+          }
+          else if (option.text == this._layers[6].name){
+            this._map.removeLayer(this._layers[6].layer)
+
+          }
+          
         }
+        
 
         
         
@@ -117,6 +148,7 @@
     }
   
     ,_createOptionElement: function (obj) {
+      
       var option = document.createElement('option')
       option.layerId = L.stamp(obj.layer)
       option.innerHTML = obj.name

@@ -262,8 +262,8 @@ var layer_control_45cf59e7a6084e749d632c2f930d60f1 = {
     "Inundaciones" : geo_json_a7a99b2187454e69bfb81f6b424dc6bf,
     "Remoción en Masa" : geo_json_1c01f61c237048b1a33f3863cd4c9286,
     "Incendios Forestales" : geo_json_775ed9e500574898863ca9e695e4e33c },
-    overlays : {"Estero Marga Marga":marker_d67b9d9f28524eec9fc4bc4fd8b7e715,
-    "Estero Reñaca":marker_52cc9e51f47d4f8598a21a9973e46343 }
+    overlays : {"Estero Reñaca":marker_d67b9d9f28524eec9fc4bc4fd8b7e715,
+    "Estero Marga Marga":marker_52cc9e51f47d4f8598a21a9973e46343 }
     };
 c = L.control.selectLayers(
     layer_control_45cf59e7a6084e749d632c2f930d60f1.base_layers,
