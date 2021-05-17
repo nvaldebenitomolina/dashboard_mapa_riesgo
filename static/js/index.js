@@ -18,8 +18,6 @@ var map_64b9894af4814ae08fe869ab362ce2b4 = L.map('map_64b9894af4814ae08fe869ab36
     });
 
 
-
-
 /* Title */
 var tile_layer_7fb2e0f6fe2e4c3c8a268247fc549c37 = L.tileLayer(
     'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
@@ -40,145 +38,6 @@ var tile_layer_7fb2e0f6fe2e4c3c8a268247fc549c37 = L.tileLayer(
             "weight": 5
         };
 
-
-// d3.json('static/geojson/geo_json_51446edfa7624e4999700360925288bb_l3.geojson' , function(json) {
-
-     
-//   Plotly.newPlot('MyDiv', [{
-//     type: 'scattermapbox',
-//     lat:  [-33.04],
-//     lon: [-71.56635993377701],
-//     }], {
-//     title: "Riesgo Climático",
-//     height: 600,
-//     width: 600,
-//     mapbox: {
-//         center: {
-//         lat:-33.04,
-//         lon: -71.56635993377701
-//         },
-//         style: 'light',
-//         zoom: 10,
-//         layers: [
-//         {
-//             sourcetype: 'geojson',
-//             source: json,
-//             type: 'fill',
-//             color: function(feature) {return feature.properties.style;}
-//             ,
-//             //color: json.features.properties
-//         }
-//         ]
-
-//     }
-//     }, {
-//     mapboxAccessToken: 'pk.eyJ1IjoibmFuY3l2IiwiYSI6ImNqdWJ3NzJxbTBpMG0zeXBnNnE1cWhmd3QifQ.-eb2vW6FClCDyeAC1zIrjg'
-//     });
-//     console.log(json.features)
-
-    
-// });
-
-
-
-function readGeojson(geojson_url) {
-    console.log('---READING LAYER---')
-    console.log($('.leaflet-control-layers-expanded :selected').val())
-    y=$('.leaflet-control-layers-expanded :selected').val()
-    try{
-        geo_json_51446edfa7624e4999700360925288bb.remove();
-        geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove();
-        geo_json_a7a99b2187454e69bfb81f6b424dc6bf.remove();
-        geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
-        geo_json_775ed9e500574898863ca9e695e4e33c.remove();
-    }
-    catch{
-        console.log('removing')
-    }
-    var geo_json = new L.GeoJSON.AJAX( Flask.url_for('static', {'filename':'geojson/'+geojson_url+'.geojson' }),{style: function(feature) {return feature.properties.style;}});
-    console.log($('.leaflet-control-layers-expanded :selected').val())
-    
-    geo_json.addTo(map_64b9894af4814ae08fe869ab362ce2b4 );
-    /*geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.setStyle(function(feature) {return feature.properties.style;});*/
-            
-        
-    geo_json.bindTooltip(
-    function(layer){
-    // Convert non-primitive to String.
-    let handleObject = (feature)=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
-    let fields = ['ID_MANZENT', 'Amenaza', 'Exposicion', 'Sensibilidad', 'Respuesta', 'Riesgo'];
-    
-    let aliases = ['Manzana', 'Amenaza', 'Exposición', 'Sensibilidad', 'Respuesta', 'Riesgo'];
-    
-    return '<table>' +
-    String(
-        fields.map(
-        columnname=>
-            `<tr style="text-align: left;">
-            <th style="padding: 4px; padding-right: 10px;">
-                ${aliases[fields.indexOf(columnname)]
-                .toLocaleString()}
-            </th>
-            <td style="padding: 4px;">${handleObject(layer.feature.properties[columnname])
-            .toLocaleString()}</td></tr>`
-        ).join(''))
-        +'</table>'
-    }, {"sticky": true});
-   
-    return geo_json
-    
-}
-
-function changeColorMap() {
-    console.log('--CHANGING LEGEND AND MAP---')
-    var x = document.getElementById("myOption").value;
-    var y = $('.leaflet-control-layers-expanded :selected').val()
-    if(x == 'none'){
-        try{
-            geo_json_51446edfa7624e4999700360925288bb.remove();
-            geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove();
-            geo_json_a7a99b2187454e69bfb81f6b424dc6bf.remove();
-            geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
-            geo_json_775ed9e500574898863ca9e695e4e33c.remove();}
-        catch{
-            console.log('No layers')
-        }
-        try{
-            document.getElementById("legend")
-            .outerHTML = "";
-            /*map_64b9894af4814ae08fe869ab362ce2b4.removeControl(color_map_b7f9973159064893a83e9b3c41690486); */
-            /*map_64b9894af4814ae08fe869ab362ce2b4.color_map_b7f9973159064893a83e9b3c41690486*/
-        }
-        catch{
-            console.log('not removing legend...')
-        }
-
-    }else{
-        if(y == "Marejadas"){
-            /*geo_json_51446edfa7624e4999700360925288bb.remove()*/
-            createLegend(x,y)
-            geo_json_51446edfa7624e4999700360925288bb=readGeojson('geo_json_51446edfa7624e4999700360925288bb_'+x)}
-        else if(y =="Calor Extremo"){
-            /*geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove()*/
-            createLegend(x,y)
-            geo_json_af5fd4f02abf42caaa66306a8ba1d7bb=readGeojson('geo_json_af5fd4f02abf42caaa66306a8ba1d7bb_'+x)}
-        else if(y =="Inundaciones"){
-            createLegend(x,y)
-            geo_json_a7a99b2187454e69bfb81f6b424dc6bf=readGeojson('geo_json_a7a99b2187454e69bfb81f6b424dc6bf_'+x)}
-        else if(y =="Remoción en Masa"){
-            createLegend(x,y)
-            geo_json_1c01f61c237048b1a33f3863cd4c9286=readGeojson('geo_json_1c01f61c237048b1a33f3863cd4c9286_'+x)}
-        else if(y =="Incendios Forestales"){
-            createLegend(x,y)
-            geo_json_775ed9e500574898863ca9e695e4e33c=readGeojson('geo_json_775ed9e500574898863ca9e695e4e33c_'+x) }
-       
-
-    }
-   
-    
-}
-
- 
 /* Marker 1 */
 var marker_52cc9e51f47d4f8598a21a9973e46343 = L.marker(
     [-33.021182, -71.559811],
@@ -242,8 +101,8 @@ marker_d67b9d9f28524eec9fc4bc4fd8b7e715.bindTooltip(
     {"sticky": true}
 );
 
-
-$("#myOption").val("none");
+// Init
+//$("#myOption").val("none");
 console.log('--LOADING--')
 var x = 'none';
 console.log(x)
@@ -279,49 +138,53 @@ geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove();
 geo_json_a7a99b2187454e69bfb81f6b424dc6bf.remove();
 geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
 geo_json_775ed9e500574898863ca9e695e4e33c.remove();
+$("#myOption").val("l1");
 var x = 'l1';
 console.log(x)
-geo_json_1c01f61c237048b1a33f3863cd4c9286=readGeojson('geo_json_1c01f61c237048b1a33f3863cd4c9286_'+x)
+createLegend(x,y)
+geo_json_1c01f61c237048b1a33f3863cd4c9286=readGeojson('geo_json_1c01f61c237048b1a33f3863cd4c9286_'+x).addTo(map_64b9894af4814ae08fe869ab362ce2b4);
 geo_json_775ed9e500574898863ca9e695e4e33c=readGeojson('geo_json_775ed9e500574898863ca9e695e4e33c_'+x)
 geo_json_51446edfa7624e4999700360925288bb=readGeojson('geo_json_51446edfa7624e4999700360925288bb_'+x)
 geo_json_a7a99b2187454e69bfb81f6b424dc6bf=readGeojson('geo_json_a7a99b2187454e69bfb81f6b424dc6bf_'+x)
 geo_json_af5fd4f02abf42caaa66306a8ba1d7bb=readGeojson('geo_json_af5fd4f02abf42caaa66306a8ba1d7bb_'+x)
 
 
-geo_json_51446edfa7624e4999700360925288bb.remove();
-geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove();
-geo_json_a7a99b2187454e69bfb81f6b424dc6bf.remove();
-geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
-geo_json_775ed9e500574898863ca9e695e4e33c.remove();
-var x = 'l2';
-console.log(x)
-geo_json_1c01f61c237048b1a33f3863cd4c9286=readGeojson('geo_json_1c01f61c237048b1a33f3863cd4c9286_'+x)
-geo_json_775ed9e500574898863ca9e695e4e33c=readGeojson('geo_json_775ed9e500574898863ca9e695e4e33c_'+x)
-geo_json_51446edfa7624e4999700360925288bb=readGeojson('geo_json_51446edfa7624e4999700360925288bb_'+x)
-geo_json_a7a99b2187454e69bfb81f6b424dc6bf=readGeojson('geo_json_a7a99b2187454e69bfb81f6b424dc6bf_'+x)
-geo_json_af5fd4f02abf42caaa66306a8ba1d7bb=readGeojson('geo_json_af5fd4f02abf42caaa66306a8ba1d7bb_'+x)
-
-
-geo_json_51446edfa7624e4999700360925288bb.remove();
+//geo_json_51446edfa7624e4999700360925288bb.remove();
 geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove();
 geo_json_a7a99b2187454e69bfb81f6b424dc6bf.remove();
 geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
 geo_json_775ed9e500574898863ca9e695e4e33c.remove();
 
-var x = 'l3';
-console.log(x)
-geo_json_1c01f61c237048b1a33f3863cd4c9286=readGeojson('geo_json_1c01f61c237048b1a33f3863cd4c9286_'+x)
-geo_json_775ed9e500574898863ca9e695e4e33c=readGeojson('geo_json_775ed9e500574898863ca9e695e4e33c_'+x)
-geo_json_51446edfa7624e4999700360925288bb=readGeojson('geo_json_51446edfa7624e4999700360925288bb_'+x)
-geo_json_a7a99b2187454e69bfb81f6b424dc6bf=readGeojson('geo_json_a7a99b2187454e69bfb81f6b424dc6bf_'+x)
-geo_json_af5fd4f02abf42caaa66306a8ba1d7bb=readGeojson('geo_json_af5fd4f02abf42caaa66306a8ba1d7bb_'+x)
+geo_json_51446edfa7624e4999700360925288bb.addTo(map_64b9894af4814ae08fe869ab362ce2b4);
+// var x = 'l2';
+// console.log(x)
+// geo_json_1c01f61c237048b1a33f3863cd4c9286=readGeojson('geo_json_1c01f61c237048b1a33f3863cd4c9286_'+x)
+// geo_json_775ed9e500574898863ca9e695e4e33c=readGeojson('geo_json_775ed9e500574898863ca9e695e4e33c_'+x)
+// geo_json_51446edfa7624e4999700360925288bb=readGeojson('geo_json_51446edfa7624e4999700360925288bb_'+x)
+// geo_json_a7a99b2187454e69bfb81f6b424dc6bf=readGeojson('geo_json_a7a99b2187454e69bfb81f6b424dc6bf_'+x)
+// geo_json_af5fd4f02abf42caaa66306a8ba1d7bb=readGeojson('geo_json_af5fd4f02abf42caaa66306a8ba1d7bb_'+x)
 
 
-geo_json_51446edfa7624e4999700360925288bb.remove();
-geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove();
-geo_json_a7a99b2187454e69bfb81f6b424dc6bf.remove();
-geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
-geo_json_775ed9e500574898863ca9e695e4e33c.remove();
+// geo_json_51446edfa7624e4999700360925288bb.remove();
+// geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove();
+// geo_json_a7a99b2187454e69bfb81f6b424dc6bf.remove();
+// geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
+// geo_json_775ed9e500574898863ca9e695e4e33c.remove();
+
+// var x = 'l3';
+// console.log(x)
+// geo_json_1c01f61c237048b1a33f3863cd4c9286=readGeojson('geo_json_1c01f61c237048b1a33f3863cd4c9286_'+x)
+// geo_json_775ed9e500574898863ca9e695e4e33c=readGeojson('geo_json_775ed9e500574898863ca9e695e4e33c_'+x)
+// geo_json_51446edfa7624e4999700360925288bb=readGeojson('geo_json_51446edfa7624e4999700360925288bb_'+x)
+// geo_json_a7a99b2187454e69bfb81f6b424dc6bf=readGeojson('geo_json_a7a99b2187454e69bfb81f6b424dc6bf_'+x)
+// geo_json_af5fd4f02abf42caaa66306a8ba1d7bb=readGeojson('geo_json_af5fd4f02abf42caaa66306a8ba1d7bb_'+x)
+
+
+// geo_json_51446edfa7624e4999700360925288bb.remove();
+// geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove();
+// geo_json_a7a99b2187454e69bfb81f6b424dc6bf.remove();
+// geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
+// geo_json_775ed9e500574898863ca9e695e4e33c.remove();
 
 $('.leaflet-control-layers.leaflet-control').hide();
 $(".leaflet-control-layers").addClass("leaflet-control-layers-expanded")
@@ -341,14 +204,16 @@ $('.leaflet-control-layers-expanded').change(function(){
 
     $('.leaflet-control-layers-base option[text="'+y+'"]').attr('selected','selected');
     var x = document.getElementById("myOption").value;
-    
+    var y = $('.leaflet-control-layers-expanded :selected').val()
+    console.log(x)
     if($('#msc-1').attr('data')==$('.leaflet-control-layers-expanded :selected').val()){
     $('#msc-1').show();
     console.log($('.leaflet-control-layers-expanded :selected').val())
     $('#msc-1').show(); $('#msc-2').hide();$('#msc-3').hide();$('#msc-4').hide();$('#msc-5').hide()
-    $("#myOption").val("none");
-    
-    /*readGeojson('geo_json_51446edfa7624e4999700360925288bb_'+x)*/
+    $("#myOption").val(x);
+    createLegend(x,y)
+    geo_json_af5fd4f02abf42caaa66306a8ba1d7bb=readGeojson('geo_json_af5fd4f02abf42caaa66306a8ba1d7bb_'+x)
+    geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.addTo(map_64b9894af4814ae08fe869ab362ce2b4)
     
     }
 
@@ -356,8 +221,10 @@ $('.leaflet-control-layers-expanded').change(function(){
     $('#msc-2').show();
     console.log($('.leaflet-control-layers-expanded :selected').val())
     $('#msc-1').hide();$('#msc-2').show();$('#msc-3').hide();$('#msc-4').hide();$('#msc-5').hide()
-    $("#myOption").val("none");
-    /*readGeojson('geo_json_af5fd4f02abf42caaa66306a8ba1d7bb_'+x)*/
+    $("#myOption").val(x);
+    createLegend(x,y)
+    geo_json_a7a99b2187454e69bfb81f6b424dc6bf = readGeojson('geo_json_a7a99b2187454e69bfb81f6b424dc6bf_'+x)
+    geo_json_a7a99b2187454e69bfb81f6b424dc6bf.addTo(map_64b9894af4814ae08fe869ab362ce2b4)
    
     }
 
@@ -365,8 +232,10 @@ $('.leaflet-control-layers-expanded').change(function(){
     $('#msc-3').show();
     console.log($('.leaflet-control-layers-expanded :selected').val())
     $('#msc-1').hide();$('#msc-2').hide();$('#msc-3').show();$('#msc-4').hide();$('#msc-5').hide()
-    $("#myOption").val("none");
-    /*readGeojson('geo_json_a7a99b2187454e69bfb81f6b424dc6bf_'+x)*/
+    $("#myOption").val(x);
+    createLegend(x,y)
+    geo_json_51446edfa7624e4999700360925288bb = readGeojson('geo_json_51446edfa7624e4999700360925288bb_'+x)
+    geo_json_51446edfa7624e4999700360925288bb.addTo(map_64b9894af4814ae08fe869ab362ce2b4)
    
     }
 
@@ -374,8 +243,11 @@ $('.leaflet-control-layers-expanded').change(function(){
     $('#msc-4').show();
     console.log($('.leaflet-control-layers-expanded :selected').val())
     $('#msc-1').hide();$('#msc-2').hide();$('#msc-3').hide();$('#msc-4').show();$('#msc-5').hide()
-    $("#myOption").val("none");
-    /*readGeojson('geo_json_1c01f61c237048b1a33f3863cd4c9286_'+x)*/
+    $("#myOption").val(x);
+    createLegend(x,y)
+    geo_json_1c01f61c237048b1a33f3863cd4c9286 = readGeojson('geo_json_1c01f61c237048b1a33f3863cd4c9286_'+x)
+    geo_json_1c01f61c237048b1a33f3863cd4c9286.addTo(map_64b9894af4814ae08fe869ab362ce2b4)
+
    
     }
 
@@ -383,29 +255,128 @@ $('.leaflet-control-layers-expanded').change(function(){
     $('#msc-5').show();
     console.log($('.leaflet-control-layers-expanded :selected').val())
     $('#msc-1').hide();$('#msc-2').hide();$('#msc-3').hide();$('#msc-4').hide();$('#msc-5').show()
-    $("#myOption").val("none");
-    /*readGeojson('geo_json_775ed9e500574898863ca9e695e4e33c_'+x)*/
-    
+    $("#myOption").val(x);
+    createLegend(x,y)
+    geo_json_775ed9e500574898863ca9e695e4e33c=readGeojson('geo_json_775ed9e500574898863ca9e695e4e33c_'+x)
+    geo_json_775ed9e500574898863ca9e695e4e33c.addTo(map_64b9894af4814ae08fe869ab362ce2b4)
     }
     
-    try{
-        document.getElementById("legend")
-        .outerHTML = "";
+    //try{
+    //    document.getElementById("legend")
+    //    .outerHTML = "";
         /*map_64b9894af4814ae08fe869ab362ce2b4.removeControl(color_map_b7f9973159064893a83e9b3c41690486); */
         /*map_64b9894af4814ae08fe869ab362ce2b4.color_map_b7f9973159064893a83e9b3c41690486*/
-    }
-    catch{
-        console.log('not removing legend...')
-    }
+    //}
+    //catch{
+    //    console.log('not removing legend...')
+    //}
     
     console.log(y)
     $('.leaflet-control-layers-base option[text="'+y+'"]').attr('selected', true);
 })
 $('#msc-3').show();$('#msc-2').hide();$('#msc-1').hide();$('#msc-4').hide();$('#msc-5').hide()
 
+// Reading geojson
+function readGeojson(geojson_url) {
+    console.log('---READING LAYER---')
+    console.log($('.leaflet-control-layers-expanded :selected').val())
+    y=$('.leaflet-control-layers-expanded :selected').val()
+    try{
+        geo_json_51446edfa7624e4999700360925288bb.remove();
+        geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove();
+        geo_json_a7a99b2187454e69bfb81f6b424dc6bf.remove();
+        geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
+        geo_json_775ed9e500574898863ca9e695e4e33c.remove();
+    }
+    catch{
+        console.log('removing')
+    }
+    var geo_json = new L.GeoJSON.AJAX( Flask.url_for('static', {'filename':'geojson/'+geojson_url+'.geojson' }),{style: function(feature) {return feature.properties.style;}});
+    console.log(geojson_url)
+    console.log($('.leaflet-control-layers-expanded :selected').val())
+    
+    geo_json.addTo(map_64b9894af4814ae08fe869ab362ce2b4 );
+    /*geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.setStyle(function(feature) {return feature.properties.style;});*/
+            
+        
+    geo_json.bindTooltip(
+    function(layer){
+    // Convert non-primitive to String.
+    let handleObject = (feature)=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ['ID_MANZENT', 'Amenaza', 'Exposicion', 'Sensibilidad', 'Respuesta', 'Riesgo'];
+    
+    let aliases = ['Manzana', 'Amenaza', 'Exposición', 'Sensibilidad', 'Respuesta', 'Riesgo'];
+    
+    return '<table>' +
+    String(
+        fields.map(
+        columnname=>
+            `<tr style="text-align: left;">
+            <th style="padding: 4px; padding-right: 10px;">
+                ${aliases[fields.indexOf(columnname)]
+                .toLocaleString()}
+            </th>
+            <td style="padding: 4px;">${handleObject(layer.feature.properties[columnname])
+            .toLocaleString()}</td></tr>`
+        ).join(''))
+        +'</table>'
+    }, {"sticky": true});
+   
+    return geo_json
+    
+}
+
+// Map color
+function changeColorMap() {
+    console.log('--CHANGING LEGEND AND MAP---')
+    var x = document.getElementById("myOption").value;
+    var y = $('.leaflet-control-layers-expanded :selected').val()
+    if(x == 'none'){
+        try{
+            geo_json_51446edfa7624e4999700360925288bb.remove();
+            geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove();
+            geo_json_a7a99b2187454e69bfb81f6b424dc6bf.remove();
+            geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
+            geo_json_775ed9e500574898863ca9e695e4e33c.remove();}
+        catch{
+            console.log('No layers')
+        }
+        try{
+            document.getElementById("legend")
+            .outerHTML = "";
+            /*map_64b9894af4814ae08fe869ab362ce2b4.removeControl(color_map_b7f9973159064893a83e9b3c41690486); */
+            /*map_64b9894af4814ae08fe869ab362ce2b4.color_map_b7f9973159064893a83e9b3c41690486*/
+        }
+        catch{
+            console.log('not removing legend...')
+        }
+
+    }else{
+        if(y == "Marejadas"){
+            /*geo_json_51446edfa7624e4999700360925288bb.remove()*/
+            createLegend(x,y)
+            geo_json_51446edfa7624e4999700360925288bb=readGeojson('geo_json_51446edfa7624e4999700360925288bb_'+x)}
+        else if(y =="Calor Extremo"){
+            /*geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove()*/
+            createLegend(x,y)
+            geo_json_af5fd4f02abf42caaa66306a8ba1d7bb=readGeojson('geo_json_af5fd4f02abf42caaa66306a8ba1d7bb_'+x)}
+        else if(y =="Inundaciones"){
+            createLegend(x,y)
+            geo_json_a7a99b2187454e69bfb81f6b424dc6bf=readGeojson('geo_json_a7a99b2187454e69bfb81f6b424dc6bf_'+x)}
+        else if(y =="Remoción en Masa"){
+            createLegend(x,y)
+            geo_json_1c01f61c237048b1a33f3863cd4c9286=readGeojson('geo_json_1c01f61c237048b1a33f3863cd4c9286_'+x)}
+        else if(y =="Incendios Forestales"){
+            createLegend(x,y)
+            geo_json_775ed9e500574898863ca9e695e4e33c=readGeojson('geo_json_775ed9e500574898863ca9e695e4e33c_'+x) }
+       
+
+    }
+   
+    
+}
 
 /* Color map legend */
-
 function createLegend(legend,y){
     console.log('--CREATING LEGEND--')
     try{
@@ -490,53 +461,53 @@ function exportMap() {
     );
   }
 
-  function afterRender(result) {
-    return result;
-  }
+function afterRender(result) {
+return result;
+}
 
-  function afterExport(result) {
-    return result;
-  }
+function afterExport(result) {
+return result;
+}
 
-  function downloadMap(caption) {
+function downloadMap(caption) {
     var downloadOptions = {
-      container: map_64b9894af4814ae08fe869ab362ce2b4._container,
-      caption: {
+        container: map_64b9894af4814ae08fe869ab362ce2b4._container,
+        caption: {
         text: caption,
         font: '30px Arial',
         fillStyle: 'black',
         position: [80, 80]
-      },
-      exclude: ['.leaflet-control-zoom', '.leaflet-control-attribution'],
-      format: 'image/png',
-      fileName: 'Map.png',
-      afterRender: afterRender,
-      afterExport: afterExport
+        },
+        exclude: ['.leaflet-control-zoom', '.leaflet-control-attribution'],
+        format: 'image/png',
+        fileName: 'Map.png',
+        afterRender: afterRender,
+        afterExport: afterExport
     };
     var promise = map_64b9894af4814ae08fe869ab362ce2b4.downloadExport(downloadOptions);
     var data = promise.then(function (result) {
-      return result;
+        return result;
     });
-  }
+}
 
 function printMap(caption) {
-var printOptions = {
-    container: map_64b9894af4814ae08fe869ab362ce2b4._container,
-    exclude: ['.leaflet-control-zoom'],
-    format: 'image/png',
-    afterRender: afterRender,
-    afterExport: afterExport
-};
-printOptions.caption = {
-    text: caption,
-    font: '30px Arial',
-    fillStyle: 'black',
-    position: [50, 50]
-};
-var promise = map_64b9894af4814ae08fe869ab362ce2b4.printExport(printOptions);
-var data = promise.then(function (result) {
-    return result;
-});
+    var printOptions = {
+        container: map_64b9894af4814ae08fe869ab362ce2b4._container,
+        exclude: ['.leaflet-control-zoom'],
+        format: 'image/png',
+        afterRender: afterRender,
+        afterExport: afterExport
+    };
+    printOptions.caption = {
+        text: caption,
+        font: '30px Arial',
+        fillStyle: 'black',
+        position: [50, 50]
+    };
+    var promise = map_64b9894af4814ae08fe869ab362ce2b4.printExport(printOptions);
+    var data = promise.then(function (result) {
+        return result;
+    });
 }
 
 // $(function() { 
