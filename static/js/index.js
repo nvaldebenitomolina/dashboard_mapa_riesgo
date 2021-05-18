@@ -100,7 +100,49 @@ marker_d67b9d9f28524eec9fc4bc4fd8b7e715.bindTooltip(
     + `click` + `</div>`,
     {"sticky": true}
 );
+// Marker 3
+var LeafIcon = L.Icon.extend({
+    options: {
+        //shadowUrl: 'leaf-shadow.png',
+        iconSize:     [38, 38],
+        //shadowSize:   [50, 64],
+        iconAnchor:   [22, 94],
+        //shadowAnchor: [4, 62],
+        popupAnchor:  [-3, -76]
+    }
+});
+var educacionIcon = new LeafIcon({iconUrl: 'static/images/educacion.png'}),
+    saludIcon = new LeafIcon({iconUrl: 'static/images/hospital.png'}),
+    hospitalIcon = new LeafIcon({iconUrl: 'static/images/signo-de-hotel.png'}),
+    carabinerosIcon = new LeafIcon({iconUrl: 'static/images/estacion-de-policia.png'}),
+    jardinIcon = new LeafIcon({iconUrl: 'static/images/estrella.png'}),
+    bomberosIcon = new LeafIcon({iconUrl: 'static/images/casco-de-bombero.png'});
 
+
+var locations = JSON.parse(markers);
+mapLink =
+'<a href="http://openstreetmap.org">OpenStreetMap</a>';
+L.tileLayer(
+'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; ' + mapLink + ' Contributors',
+    maxZoom: 18,
+}).addTo(map_64b9894af4814ae08fe869ab362ce2b4);
+function readMarkers(name, iconmarker) {
+    for (var i = 0; i < locations[name].length; i++) {
+        marker = new L.marker(
+            [locations[name][i][1], locations[name][i][2]],
+            {icon: iconmarker})
+            .bindPopup(locations[name][i][0])
+            .addTo(map_64b9894af4814ae08fe869ab362ce2b4);
+        }
+    return marker
+
+}
+markerCarabineros = readMarkers('carabineros',carabinerosIcon)
+markerHospitales = readMarkers('hospitales',hospitalIcon)
+markerBomberos = readMarkers('bomberos',bomberosIcon)
+markerEducacion = readMarkers('educacionales',educacionIcon)
+markerJardin = readMarkers('jardines', jardinIcon)
 // Init
 //$("#myOption").val("none");
 console.log('--LOADING--')
@@ -122,7 +164,12 @@ var layer_control_45cf59e7a6084e749d632c2f930d60f1 = {
     "Remoción en Masa" : geo_json_1c01f61c237048b1a33f3863cd4c9286,
     "Incendios Forestales" : geo_json_775ed9e500574898863ca9e695e4e33c },
     overlays : {"Estero Reñaca":marker_d67b9d9f28524eec9fc4bc4fd8b7e715,
-    "Estero Marga Marga":marker_52cc9e51f47d4f8598a21a9973e46343 }
+    "Estero Marga Marga":marker_52cc9e51f47d4f8598a21a9973e46343,
+    "Carabineros":markerCarabineros,
+    "Hospitales":markerHospitales,
+    "Bomberos":markerBomberos,
+    "Centros educacionales":markerEducacion,
+    "Jardín infantil":markerJardin},
     };
 c = L.control.selectLayers(
     layer_control_45cf59e7a6084e749d632c2f930d60f1.base_layers,

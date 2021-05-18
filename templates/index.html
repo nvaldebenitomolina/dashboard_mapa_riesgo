@@ -27,7 +27,6 @@
     
     <meta name="viewport" content="width=device-width,
         initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    
     {{ JSGlue.include() }}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
      <script src="{{ url_for('static', filename="js/leaflet.ajax.min.js") }}"></script>
@@ -38,7 +37,7 @@
      <script  src="{{ url_for('static', filename="js/html2canvas.svg.js") }}"></script>
      <script  src="{{ url_for('static', filename="js/html2canvas.svg.min.js") }}"></script>
      <script  src="{{ url_for('static', filename="js/leaflet_export.js") }}"></script>
-     <!-- <script  src="{{ url_for('static', filename="js/FileSaver.js") }}"></script>-->
+     
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="css/index.css") }}"></script>
 
@@ -214,5 +213,6 @@
   
     
 </body>
+<script type="text/javascript" src="{{ url_for('static', filename="js/markers.js") }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename="js/legends.js") }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename="js/index.js") }}"></script>
