@@ -128,21 +128,43 @@ L.tileLayer(
     maxZoom: 18,
 }).addTo(map_64b9894af4814ae08fe869ab362ce2b4);
 function readMarkers(name, iconmarker) {
+    markers=[]
     for (var i = 0; i < locations[name].length; i++) {
-        marker = new L.marker(
+        markers[i] = new L.marker(
             [locations[name][i][1], locations[name][i][2]],
             {icon: iconmarker})
             .bindPopup(locations[name][i][0])
-            .addTo(map_64b9894af4814ae08fe869ab362ce2b4);
+            
         }
-    return marker
+    var markersAll =  L.layerGroup(markers);
+    return markersAll
 
 }
+// var markerCarabineros = []
+// for (var i = 0; i < locations['carabineros'].length; i++) {
+//     markerCarabineros[i] = new L.marker(
+//         [locations['carabineros'][i][1], locations['carabineros'][i][2]],
+//         {icon: carabinerosIcon})
+//         .bindPopup(locations['carabineros'][i][0])
+    
+//     }
+// var markerCarabinerosAll=   L.layerGroup(markerCarabineros);
+
+//
 markerCarabineros = readMarkers('carabineros',carabinerosIcon)
 markerHospitales = readMarkers('hospitales',hospitalIcon)
 markerBomberos = readMarkers('bomberos',bomberosIcon)
 markerEducacion = readMarkers('educacionales',educacionIcon)
 markerJardin = readMarkers('jardines', jardinIcon)
+markerSalud = readMarkers('centros_salud', saludIcon)
+
+markerCarabineros.addTo(map_64b9894af4814ae08fe869ab362ce2b4)
+markerBomberos.addTo(map_64b9894af4814ae08fe869ab362ce2b4)
+markerHospitales.addTo(map_64b9894af4814ae08fe869ab362ce2b4)
+markerEducacion.addTo(map_64b9894af4814ae08fe869ab362ce2b4)
+markerJardin.addTo(map_64b9894af4814ae08fe869ab362ce2b4)
+markerSalud.addTo(map_64b9894af4814ae08fe869ab362ce2b4)
+
 // Init
 //$("#myOption").val("none");
 console.log('--LOADING--')
@@ -169,7 +191,8 @@ var layer_control_45cf59e7a6084e749d632c2f930d60f1 = {
     "Hospitales":markerHospitales,
     "Bomberos":markerBomberos,
     "Centros educacionales":markerEducacion,
-    "Jardín infantil":markerJardin},
+    "Jardín infantil":markerJardin,
+    "Centros de salud":markerSalud},
     };
 c = L.control.selectLayers(
     layer_control_45cf59e7a6084e749d632c2f930d60f1.base_layers,
@@ -203,35 +226,6 @@ geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
 geo_json_775ed9e500574898863ca9e695e4e33c.remove();
 
 geo_json_51446edfa7624e4999700360925288bb.addTo(map_64b9894af4814ae08fe869ab362ce2b4);
-// var x = 'l2';
-// console.log(x)
-// geo_json_1c01f61c237048b1a33f3863cd4c9286=readGeojson('geo_json_1c01f61c237048b1a33f3863cd4c9286_'+x)
-// geo_json_775ed9e500574898863ca9e695e4e33c=readGeojson('geo_json_775ed9e500574898863ca9e695e4e33c_'+x)
-// geo_json_51446edfa7624e4999700360925288bb=readGeojson('geo_json_51446edfa7624e4999700360925288bb_'+x)
-// geo_json_a7a99b2187454e69bfb81f6b424dc6bf=readGeojson('geo_json_a7a99b2187454e69bfb81f6b424dc6bf_'+x)
-// geo_json_af5fd4f02abf42caaa66306a8ba1d7bb=readGeojson('geo_json_af5fd4f02abf42caaa66306a8ba1d7bb_'+x)
-
-
-// geo_json_51446edfa7624e4999700360925288bb.remove();
-// geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove();
-// geo_json_a7a99b2187454e69bfb81f6b424dc6bf.remove();
-// geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
-// geo_json_775ed9e500574898863ca9e695e4e33c.remove();
-
-// var x = 'l3';
-// console.log(x)
-// geo_json_1c01f61c237048b1a33f3863cd4c9286=readGeojson('geo_json_1c01f61c237048b1a33f3863cd4c9286_'+x)
-// geo_json_775ed9e500574898863ca9e695e4e33c=readGeojson('geo_json_775ed9e500574898863ca9e695e4e33c_'+x)
-// geo_json_51446edfa7624e4999700360925288bb=readGeojson('geo_json_51446edfa7624e4999700360925288bb_'+x)
-// geo_json_a7a99b2187454e69bfb81f6b424dc6bf=readGeojson('geo_json_a7a99b2187454e69bfb81f6b424dc6bf_'+x)
-// geo_json_af5fd4f02abf42caaa66306a8ba1d7bb=readGeojson('geo_json_af5fd4f02abf42caaa66306a8ba1d7bb_'+x)
-
-
-// geo_json_51446edfa7624e4999700360925288bb.remove();
-// geo_json_af5fd4f02abf42caaa66306a8ba1d7bb.remove();
-// geo_json_a7a99b2187454e69bfb81f6b424dc6bf.remove();
-// geo_json_1c01f61c237048b1a33f3863cd4c9286.remove();
-// geo_json_775ed9e500574898863ca9e695e4e33c.remove();
 
 $('.leaflet-control-layers.leaflet-control').hide();
 $(".leaflet-control-layers").addClass("leaflet-control-layers-expanded")

@@ -85,6 +85,7 @@
       this._handlingClick = true
   
       var options = this._overlaysList.options
+      console.log(this._layers)
       for (var i = 0; i < options.length; i++) {
         var option = options[i]
         //console.log(option.text)
@@ -108,23 +109,62 @@
         //   }
         // }
         if (option.selected == true) {
+          console.log(option.selected)
+          console.log(option.text)
           if (option.text == this._layers[5].name){
             this._map.addLayer(this._layers[5].layer)
           }
           else if (option.text == this._layers[6].name){
             this._map.addLayer(this._layers[6].layer)
 
+          }else if (option.text == this._layers[7].name){
+            this._map.addLayer(this._layers[7].layer)
+
+          }else if (option.text == this._layers[8].name){
+            this._map.addLayer(this._layers[8].layer)
+
+          }else if (option.text == this._layers[9].name){
+            this._map.addLayer(this._layers[9].layer)
+
+          }else if (option.text == this._layers[10].name){
+            this._map.addLayer(this._layers[10].layer)
+
+          }else if (option.text == this._layers[11].name){
+            this._map.addLayer(this._layers[11].layer)
+
+          }else if (option.text == this._layers[12].name){
+            this._map.addLayer(this._layers[12].layer)
+
           }
           
           
           
         }else if (option.selected == false){
-        
+          console.log(option.selected)
+          console.log(option.text)
           if (option.text == this._layers[5].name){
             this._map.removeLayer(this._layers[5].layer)
           }
           else if (option.text == this._layers[6].name){
             this._map.removeLayer(this._layers[6].layer)
+
+          }else if (option.text == this._layers[7].name){
+            this._map.removeLayer(this._layers[7].layer)
+
+          }else if (option.text == this._layers[8].name){
+            this._map.removeLayer(this._layers[8].layer)
+
+          }else if (option.text == this._layers[9].name){
+            this._map.removeLayer(this._layers[9].layer)
+
+          }else if (option.text == this._layers[10].name){
+            this._map.removeLayer(this._layers[10].layer)
+
+          }else if (option.text == this._layers[11].name){
+            this._map.removeLayer(this._layers[11].layer)
+
+          }else if (option.text == this._layers[12].name){
+            this._map.removeLayer(this._layers[12].layer)
 
           }
           
@@ -152,6 +192,7 @@
       var option = document.createElement('option')
       option.layerId = L.stamp(obj.layer)
       option.innerHTML = obj.name
+      console.log(option)
       if (this._map.hasLayer(obj.layer)) {
         option.setAttribute('selected', true)
       }

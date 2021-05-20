@@ -39,6 +39,6 @@ read_create_json('hospitales','markers_output/Centros_de_salud_terciaria_Hospita
 read_create_json('bomberos','markers_output/Compañías_de_Bomberos.shp')
 read_create_json('educacionales','markers_output/Establecimientos_Educacionales.shp')
 merge_create_json('jardines',['markers_output/Jardines_Infantiles_JUNJI.shp','markers_output/Jardines_Infantiles_INTEGRA.shp'])
-
+merge_create_json('centros_salud',['markers_output/Centros_de_salud_PRAIS.shp','markers_output/Centros_de_salud_secundaria.shp','markers_output/Centros_de_salud_primario_Consultorios.shp'])
 with open('static/js/markers.js', 'w') as outfile:
     json.dump('markers='+str(data), outfile)
